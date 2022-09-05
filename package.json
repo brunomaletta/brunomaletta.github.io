@@ -1,7 +1,7 @@
 {
   "name": "portfolio",
   "version": "0.1.0",
-  "homepage": "https://thais-damasio.github.io",
+  "homepage": "https://brunomaletta.github.io",
   "private": true,
   "dependencies": {
     "@material-ui/core": "^4.11.4",
