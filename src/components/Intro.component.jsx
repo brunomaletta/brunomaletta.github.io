@@ -9,7 +9,7 @@ const IntroComponent = styled.div`
 function ProfileSection() {
     return (
         <IntroComponent>
-            <Typography variant="h4" component="h1">Bruno Maletta</Typography>
+            <Typography variant="h4" component="h1">Bruno Monteiro</Typography>
             <Typography variant="h6" component="h2">MSc Student</Typography>
 
             <SocialMedia />
