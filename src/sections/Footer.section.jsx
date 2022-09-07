@@ -10,7 +10,7 @@ const Footer = styled.footer`
 function FooterSection() {
     return (	
         <Footer>
-            Bruno Maletta &nbsp;•&nbsp;2022 <br/>
+            Bruno Monteiro &nbsp;•&nbsp;2022 <br/>
             <small>Theme inspired by <a href="https://thais-damasio.github.io/">this</a> project</small>
         </Footer>
     );
