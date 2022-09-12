@@ -11,15 +11,24 @@ const Random = styled.div`
 function RandomComponent() {
     return (
         <Random>
-            <Typography variant="h6" component="h3">Some facts about me</Typography>
+            <Typography variant="h6" component="h3">Random facts about me</Typography>
             <List>
                 <ListItem>
                   <ListItemIcon>
                     <ArrowForwardIos/>
                   </ListItemIcon>
                   <ListItemText
-                    primary="Some fact"
-                    // secondary='Federal University of Minas Gerais (UFMG)'
+                    primary="Best half marathon time: 1:49:40"
+                    secondary="At Maratona do Rio 2022"
+                  />
+                </ListItem>
+                <ListItem>
+                  <ListItemIcon>
+                    <ArrowForwardIos/>
+                  </ListItemIcon>
+                  <ListItemText
+                    primary="Best Rubik's Cube solve time: 10.65 s"
+                    secondary="Best AVG5: 13.45"
                   />
                 </ListItem>
             </List>

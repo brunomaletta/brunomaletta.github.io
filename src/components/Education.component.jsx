@@ -29,7 +29,7 @@ function EducationComponent() {
                   </ListItemIcon>
                   <ListItemText
                     primary="Bachelor’s Degree in Computer Science [2017 - 2021]"
-                    secondary='Federal University of Minas Gerais (UFMG) with the supervision of Vinicius Fernandes dos Santos'
+                    secondary='Federal University of Minas Gerais (UFMG)'
                   />
                 </ListItem>
             </List>
