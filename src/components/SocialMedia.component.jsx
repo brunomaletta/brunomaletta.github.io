@@ -1,9 +1,11 @@
 import { LinkedIn, GitHub, Instagram } from '@material-ui/icons';
 import styled from 'styled-components';
+import { Icon } from '@iconify/react';
 
 const LinkedinURL = "https://www.linkedin.com/in/brunomont/"
 // const InstagramURL = "https://www.instagram.com/"
 const GithubURL = "https://github.com/brunomaletta"
+const CodeforcesURL = "https://codeforces.com/profile/brunomont"
 
 const Wrapper = styled.div`
     padding: 25px 0px 10px 0px;
@@ -20,9 +22,9 @@ const Wrapper = styled.div`
 function SocialMediaComponent() {
     return (
         <Wrapper>
-            <a href={LinkedinURL}><LinkedIn /></a>
+			<a href={CodeforcesURL}><Icon icon="simple-icons:codeforces" /></a>
             <a href={GithubURL}><GitHub /></a>
-            {/*<a href={InstagramURL}><Instagram /></a>*/}
+            <a href={LinkedinURL}><LinkedIn /></a>
         </Wrapper>
     );
 }

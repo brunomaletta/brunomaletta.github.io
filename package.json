@@ -4,6 +4,7 @@
   "homepage": "https://brunomaletta.github.io",
   "private": true,
   "dependencies": {
+    "@iconify/json": "^2.1.106",
     "@material-ui/core": "^4.11.4",
     "@material-ui/icons": "^4.11.2",
     "@testing-library/jest-dom": "^5.14.1",
@@ -40,6 +41,7 @@
     ]
   },
   "devDependencies": {
+    "@iconify/react": "^4.0.0",
     "gh-pages": "^4.0.0"
   }
 }

@@ -13,6 +13,15 @@ function RandomComponent() {
         <Random>
             <Typography variant="h6" component="h3">Random facts about me</Typography>
             <List>
+                <ListItem button component="a" href="../../public/codando.jpg">
+                  <ListItemIcon>
+                    <ArrowForwardIos/>
+                  </ListItemIcon>
+                  <ListItemText
+                    primary="Started coding at the age of 6 months"
+                    secondary="Click for source"
+                  />
+                </ListItem>
                 <ListItem>
                   <ListItemIcon>
                     <ArrowForwardIos/>
@@ -29,6 +38,15 @@ function RandomComponent() {
                   <ListItemText
                     primary="Best Rubik's Cube solve time: 10.65 s"
                     secondary="Best AVG5: 13.45"
+                  />
+                </ListItem>
+                <ListItem>
+                  <ListItemIcon>
+                    <ArrowForwardIos/>
+                  </ListItemIcon>
+                  <ListItemText
+                    primary="Longest time holding my breath: 3 min 4 s"
+                    secondary="Underwater"
                   />
                 </ListItem>
             </List>

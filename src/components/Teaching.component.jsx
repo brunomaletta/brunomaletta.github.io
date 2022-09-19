@@ -31,6 +31,15 @@ function TeachingComponent() {
                     secondary="UNICAMP"
                   />
                 </ListItem>
+                <ListItem>
+                  <ListItemIcon>
+                    <Computer/>
+                  </ListItemIcon>
+                  <ListItemText
+                    primary="Samsung Software Development Training [December 2021 - February 2022]"
+                    secondary="Remote"
+                  />
+                </ListItem>
             </List>
         </Teaching>
     );

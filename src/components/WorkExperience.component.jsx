@@ -28,7 +28,7 @@ function WorkComponent() {
                     <Work/>
                   </ListItemIcon>
                   <ListItemText
-                    primary="Strategist Intern [May 2021 - August 2021]"
+                    primary="Strategist (Intern) [May 2021 - August 2021]"
                     secondary='Goldman Sachs'
                   />
                 </ListItem>
