@@ -13,7 +13,7 @@ function RandomComponent() {
         <Random>
             <Typography variant="h6" component="h3">Random facts about me</Typography>
             <List>
-                <ListItem button component="a" href="../../public/codando.jpg">
+                <ListItem button component="a" href="https://homepages.dcc.ufmg.br/~monteirobruno/codando.jpg">
                   <ListItemIcon>
                     <ArrowForwardIos/>
                   </ListItemIcon>
@@ -22,12 +22,12 @@ function RandomComponent() {
                     secondary="Click for source"
                   />
                 </ListItem>
-                <ListItem>
+                <ListItem button component="a" href="https://www.strava.com/activities/7328331547">
                   <ListItemIcon>
                     <ArrowForwardIos/>
                   </ListItemIcon>
                   <ListItemText
-                    primary="Best half marathon time: 1:49:40"
+                    primary="Best half marathon time: 1:49:38"
                     secondary="At Maratona do Rio 2022"
                   />
                 </ListItem>
