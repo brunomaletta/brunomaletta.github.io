@@ -1,0 +1,70 @@
+---
+import SiteLayout from "../layouts/SiteLayout.astro";
+import { publications } from "../data/site";
+
+const papers = publications.filter((p) => p.kind === "paper");
+const masters = publications.find((p) => p.kind === "masters")!;
+const bachelors = publications.find((p) => p.kind === "bachelors")!;
+---
+<SiteLayout title="Research" current="/research">
+  <p class="kicker">Research</p>
+  <h1>Theses and papers</h1>
+  <p class="lede">String algorithms, graph partitions, and data structures for sets and arrays.</p>
+
+  <section class="prose" style="margin-top:2.5rem;">
+    <h2>Papers</h2>
+    {papers.map((paper) => (
+      <div class="pub">
+        <p>
+          <em>{paper.title}</em>. {paper.authors}. {paper.venue}.
+        </p>
+        {paper.blurb && <p>{paper.blurb}</p>}
+        <p>
+          {paper.links.map((l, i) => (
+            <>
+              {i > 0 && " · "}
+              <a href={l.href}>{l.label}</a>
+            </>
+          ))}
+          {paper.extra && (
+            <>
+              {" · "}
+              <a href={paper.extra}>code</a>
+            </>
+          )}
+        </p>
+      </div>
+    ))}
+  </section>
+
+  <section class="prose" style="margin-top:2.5rem;">
+    <h2>Master's thesis</h2>
+    <p>
+      <em>{masters.title}</em>. {masters.authors}. {masters.venue}
+    </p>
+    <p>
+      The dissertation the SPIRE paper is based on.
+    </p>
+    <p>
+      <a href={masters.href}>PDF</a>
+      · <a href={masters.extra}>code</a>
+    </p>
+  </section>
+
+  <section class="prose" style="margin-top:2.5rem;">
+    <h2>Bachelor's thesis</h2>
+    <p>
+      <em>{bachelors.title}</em>
+      {bachelors.original && <> / <em>{bachelors.original}</em></>}.
+      {bachelors.authors}. {bachelors.venue}
+    </p>
+    <p>
+      Integer-set representation with merge and split in O(log U) amortized. A Block-Sorted Array supporting split, concat, reverse, and sort in O(log n + log U), plus a Partition operation that removes the k smallest values (conjectured sublinear).
+    </p>
+    <p>
+      <a href={bachelors.href}>PDF</a>
+      · <a href={bachelors.extra}>code</a>
+      · <a href="/writing/integer-sets">related tutorial</a>
+    </p>
+  </section>
+</SiteLayout>

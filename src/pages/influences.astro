@@ -1,0 +1,20 @@
+---
+import SiteLayout from "../layouts/SiteLayout.astro";
+import { people } from "../data/site";
+---
+<SiteLayout title="Influences" current="/influences">
+  <h1>Influences</h1>
+  <p class="lede">Some people that I admire.</p>
+  <div class="people">
+    {people.map((p) => (
+      <article class="person">
+        <img src={p.photo} alt="" />
+        <div>
+          <p class="years">{p.years}</p>
+          <h2>{p.name}</h2>
+          <p>{p.note}</p>
+        </div>
+      </article>
+    ))}
+  </div>
+</SiteLayout>

@@ -1,0 +1,20 @@
+---
+import SiteLayout from "../../layouts/SiteLayout.astro";
+import { getCollection } from "astro:content";
+
+const posts = (await getCollection("writing")).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+);
+---
+<SiteLayout title="Writing" current="/writing">
+  <p class="kicker">Writing</p>
+  <h1>Posts</h1>
+  <ul class="list" style="margin-top:2rem;">
+    {posts.map((p) => (
+      <li>
+        <a href={`/writing/${p.id}`}>{p.data.title}</a>
+        <span class="meta">{p.data.date.toISOString().slice(0, 10)}</span>
+      </li>
+    ))}
+  </ul>
+</SiteLayout>

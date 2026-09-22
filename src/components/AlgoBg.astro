@@ -1,0 +1,404 @@
+<canvas class="algo-bg" aria-hidden="true"></canvas>
+<script>
+  const canvas = document.querySelector(".algo-bg");
+  if (!(canvas instanceof HTMLCanvasElement)) throw new Error("algo-bg");
+  const ctx = canvas.getContext("2d");
+  if (!ctx) throw new Error("2d");
+
+  const SHELL_REM = 68;
+  const SEED = 0x6d656c68;
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+  type Pt = { x: number; y: number };
+  type Tri = {
+    a: number; b: number; c: number;
+    pts: Pt[];
+    tag: string;
+    cx: number; cy: number;
+    minX: number; maxX: number; minY: number; maxY: number;
+    neighbors: number[];
+  };
+  type Edge = { i: number; j: number; len: number; pts: Pt[]; tag: string };
+
+  function mulberry32(a: number) {
+    return () => {
+      a |= 0;
+      a = (a + 0x6d2b79f5) | 0;
+      let t = Math.imul(a ^ (a >>> 15), 1 | a);
+      t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+  }
+
+  function circumContains(
+    ax: number, ay: number,
+    bx: number, by: number,
+    cx: number, cy: number,
+    px: number, py: number
+  ) {
+    const d = 2 * (ax * (by - cy) + bx * (cy - ay) + cx * (ay - by));
+    if (Math.abs(d) < 1e-9) return false;
+    const a2 = ax * ax + ay * ay;
+    const b2 = bx * bx + by * by;
+    const c2 = cx * cx + cy * cy;
+    const ux = (a2 * (by - cy) + b2 * (cy - ay) + c2 * (ay - by)) / d;
+    const uy = (a2 * (cx - bx) + b2 * (ax - cx) + c2 * (bx - ax)) / d;
+    const r2 = (ux - ax) ** 2 + (uy - ay) ** 2;
+    return (px - ux) ** 2 + (py - uy) ** 2 <= r2 * 1.0000001;
+  }
+
+  function triangulate(pts: Pt[]) {
+    const n = pts.length;
+    let maxAbs = 1;
+    for (const p of pts) maxAbs = Math.max(maxAbs, Math.abs(p.x), Math.abs(p.y));
+    const s = maxAbs * 20 + 1000;
+    const extra = [
+      { x: 0, y: -s },
+      { x: s, y: s },
+      { x: -s, y: s },
+    ];
+    const P = pts.concat(extra);
+    let triangles: [number, number, number][] = [[n, n + 1, n + 2]];
+
+    for (let i = 0; i < n; i++) {
+      const p = P[i];
+      const bad: [number, number, number][] = [];
+      for (const t of triangles) {
+        if (circumContains(P[t[0]].x, P[t[0]].y, P[t[1]].x, P[t[1]].y, P[t[2]].x, P[t[2]].y, p.x, p.y)) {
+          bad.push(t);
+        }
+      }
+      const count = new Map<string, number>();
+      const key = (a: number, b: number) => (a < b ? `${a},${b}` : `${b},${a}`);
+      for (const t of bad) {
+        for (let e = 0; e < 3; e++) {
+          const k = key(t[e], t[(e + 1) % 3]);
+          count.set(k, (count.get(k) ?? 0) + 1);
+        }
+      }
+      const cavity: [number, number][] = [];
+      for (const t of bad) {
+        for (let e = 0; e < 3; e++) {
+          const a = t[e];
+          const b = t[(e + 1) % 3];
+          if (count.get(key(a, b)) === 1) cavity.push([a, b]);
+        }
+      }
+      const drop = new Set(bad);
+      triangles = triangles.filter((t) => !drop.has(t));
+      for (const [a, b] of cavity) triangles.push([a, b, i]);
+    }
+
+    return triangles.filter((t) => t[0] < n && t[1] < n && t[2] < n);
+  }
+
+  function find(p: number[], i: number): number {
+    while (p[i] !== i) {
+      p[i] = p[p[i]];
+      i = p[i];
+    }
+    return i;
+  }
+
+  function pointInTri(px: number, py: number, ax: number, ay: number, bx: number, by: number, cx: number, cy: number) {
+    const v0x = cx - ax, v0y = cy - ay;
+    const v1x = bx - ax, v1y = by - ay;
+    const v2x = px - ax, v2y = py - ay;
+    const dot00 = v0x * v0x + v0y * v0y;
+    const dot01 = v0x * v1x + v0y * v1y;
+    const dot02 = v0x * v2x + v0y * v2y;
+    const dot11 = v1x * v1x + v1y * v1y;
+    const dot12 = v1x * v2x + v1y * v2y;
+    const den = dot00 * dot11 - dot01 * dot01;
+    if (Math.abs(den) < 1e-12) return false;
+    const u = (dot11 * dot02 - dot01 * dot12) / den;
+    const v = (dot00 * dot12 - dot01 * dot02) / den;
+    return u >= -1e-6 && v >= -1e-6 && u + v <= 1 + 1e-6;
+  }
+
+  let w = 0;
+  let h = 0;
+  let gutter = 0;
+  let left: Pt[] = [];
+  let right: Pt[] = [];
+  let tris: Tri[] = [];
+  let edges: Edge[] = [];
+  let tree = new Set<string>();
+  let heat = new Float32Array(0);
+  let mouse = { x: -1e9, y: -1e9 };
+  let raf = 0;
+  let lastTs = 0;
+  let live = false;
+
+  function build() {
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    w = window.innerWidth;
+    h = window.innerHeight;
+    canvas.width = Math.floor(w * dpr);
+    canvas.height = Math.floor(h * dpr);
+    canvas.style.width = `${w}px`;
+    canvas.style.height = `${h}px`;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+    const rem = parseFloat(getComputedStyle(document.documentElement).fontSize) || 16;
+    const shell = Math.min(w, SHELL_REM * rem);
+    gutter = (w - shell) / 2;
+    tris = [];
+    edges = [];
+    tree = new Set();
+    left = [];
+    right = [];
+    heat = new Float32Array(0);
+    if (w < 1100 || gutter < 56) {
+      ctx.clearRect(0, 0, w, h);
+      return;
+    }
+
+    const rand = mulberry32(SEED ^ (Math.round(w / 40) * 17) ^ (Math.round(h / 40) * 31));
+    const cell = Math.max(52, Math.min(78, gutter / 5.2));
+    const band = gutter + cell * 1.6;
+
+    const jitteredBand = (x0: number, x1: number, side: "L" | "R") => {
+      const out: Pt[] = [];
+      const cols = Math.max(2, Math.round((x1 - x0) / cell));
+      const rows = Math.max(4, Math.round(h / cell));
+      for (let j = 0; j <= rows; j++) {
+        for (let i = 0; i <= cols; i++) {
+          const gx = x0 + (i / cols) * (x1 - x0);
+          const gy = (j / rows) * h;
+          let x = gx + (rand() - 0.5) * cell * 0.72;
+          let y = gy + (rand() - 0.5) * cell * 0.72;
+          if (j === 0) y = -2;
+          if (j === rows) y = h + 2;
+          if (side === "L" && i === 0) x = -2;
+          if (side === "R" && i === cols) x = w + 2;
+          out.push({ x, y });
+        }
+      }
+      return out;
+    };
+    left = jitteredBand(-cell * 0.3, band, "L");
+    right = jitteredBand(w - band, w + cell * 0.3, "R");
+
+    const meshSide = (sidePts: Pt[], tag: string) => {
+      const sideTris = triangulate(sidePts);
+      const edgeMap = new Map<string, Edge>();
+      for (const [a, b, c] of sideTris) {
+        const pa = sidePts[a], pb = sidePts[b], pc = sidePts[c];
+        tris.push({
+          a, b, c, pts: sidePts, tag,
+          cx: (pa.x + pb.x + pc.x) / 3,
+          cy: (pa.y + pb.y + pc.y) / 3,
+          minX: Math.min(pa.x, pb.x, pc.x),
+          maxX: Math.max(pa.x, pb.x, pc.x),
+          minY: Math.min(pa.y, pb.y, pc.y),
+          maxY: Math.max(pa.y, pb.y, pc.y),
+          neighbors: [],
+        });
+        for (const [i, j] of [[a, b], [b, c], [c, a]] as [number, number][]) {
+          const k = i < j ? `${i},${j}` : `${j},${i}`;
+          if (!edgeMap.has(k)) {
+            edgeMap.set(k, {
+              i, j,
+              len: Math.hypot(sidePts[i].x - sidePts[j].x, sidePts[i].y - sidePts[j].y),
+              pts: sidePts,
+              tag,
+            });
+          }
+        }
+      }
+      const sideEdges = [...edgeMap.values()].filter((e) => e.len < cell * 3.8);
+      edges.push(...sideEdges);
+      const parent = sidePts.map((_, i) => i);
+      sideEdges
+        .slice()
+        .sort((a, b) => a.len - b.len)
+        .forEach((e) => {
+          const ia = find(parent, e.i);
+          const ib = find(parent, e.j);
+          if (ia !== ib) {
+            parent[ia] = ib;
+            tree.add(`${tag}:${Math.min(e.i, e.j)},${Math.max(e.i, e.j)}`);
+          }
+        });
+    };
+
+    meshSide(left, "L");
+    meshSide(right, "R");
+
+    const edgeToTris = new Map<string, number[]>();
+    tris.forEach((t, idx) => {
+      for (const [i, j] of [[t.a, t.b], [t.b, t.c], [t.c, t.a]] as [number, number][]) {
+        const k = `${t.tag}:${Math.min(i, j)},${Math.max(i, j)}`;
+        const list = edgeToTris.get(k);
+        if (list) list.push(idx);
+        else edgeToTris.set(k, [idx]);
+      }
+    });
+    for (const list of edgeToTris.values()) {
+      if (list.length < 2) continue;
+      for (let i = 0; i < list.length; i++) {
+        for (let j = i + 1; j < list.length; j++) {
+          tris[list[i]].neighbors.push(list[j]);
+          tris[list[j]].neighbors.push(list[i]);
+        }
+      }
+    }
+
+    heat = new Float32Array(tris.length);
+  }
+
+  function hitTriangle(px: number, py: number) {
+    if (px > gutter + 24 && px < w - gutter - 24) return -1;
+    for (let i = 0; i < tris.length; i++) {
+      const t = tris[i];
+      if (px < t.minX || px > t.maxX || py < t.minY || py > t.maxY) continue;
+      const pa = t.pts[t.a], pb = t.pts[t.b], pc = t.pts[t.c];
+      if (pointInTri(px, py, pa.x, pa.y, pb.x, pb.y, pc.x, pc.y)) return i;
+    }
+    return -1;
+  }
+
+  function draw(dt: number) {
+    ctx.clearRect(0, 0, w, h);
+    if (!tris.length) return;
+
+    const mx = mouse.x;
+    const my = mouse.y;
+    const hovered = reduceMotion.matches ? -1 : hitTriangle(mx, my);
+    const radius = 130;
+    let maxHeat = 0;
+
+    for (let i = 0; i < tris.length; i++) {
+      let target = 0;
+      if (!reduceMotion.matches && mx > -1e8) {
+        const t = tris[i];
+        const d = Math.hypot(t.cx - mx, t.cy - my);
+        const fall = Math.exp(-(d * d) / (radius * radius));
+        target = fall * 0.55;
+        if (i === hovered) target = 1;
+      }
+      const tau = target > heat[i] ? 0.09 : 0.42;
+      heat[i] += (target - heat[i]) * (1 - Math.exp(-dt / tau));
+      if (heat[i] < 0.002) heat[i] = 0;
+      if (heat[i] > maxHeat) maxHeat = heat[i];
+    }
+    if (hovered >= 0) {
+      for (const n of tris[hovered].neighbors) {
+        const bump = 0.45;
+        if (heat[n] < bump) {
+          heat[n] += (bump - heat[n]) * (1 - Math.exp(-dt / 0.09));
+        }
+        if (heat[n] > maxHeat) maxHeat = heat[n];
+      }
+    }
+
+    const white = (a: number) => `rgba(255, 255, 255, ${a})`;
+    const glow = (a: number) => `rgba(255, 236, 190, ${a})`;
+    ctx.lineJoin = "round";
+    ctx.lineCap = "round";
+
+    const vHeat = new Map<string, number>();
+    const bumpV = (tag: string, i: number, val: number) => {
+      const k = `${tag}:${i}`;
+      const prev = vHeat.get(k) ?? 0;
+      if (val > prev) vHeat.set(k, val);
+    };
+    for (let i = 0; i < tris.length; i++) {
+      const t = tris[i];
+      const hh = heat[i];
+      bumpV(t.tag, t.a, hh);
+      bumpV(t.tag, t.b, hh);
+      bumpV(t.tag, t.c, hh);
+      const pa = t.pts[t.a], pb = t.pts[t.b], pc = t.pts[t.c];
+      ctx.beginPath();
+      ctx.moveTo(pa.x, pa.y);
+      ctx.lineTo(pb.x, pb.y);
+      ctx.lineTo(pc.x, pc.y);
+      ctx.closePath();
+      ctx.fillStyle = hh > 0.02 ? glow(0.05 + 0.28 * hh) : white(0.055);
+      ctx.fill();
+    }
+
+    for (const e of edges) {
+      const pa = e.pts[e.i];
+      const pb = e.pts[e.j];
+      const eh = Math.max(vHeat.get(`${e.tag}:${e.i}`) ?? 0, vHeat.get(`${e.tag}:${e.j}`) ?? 0);
+      const mst = tree.has(`${e.tag}:${Math.min(e.i, e.j)},${Math.max(e.i, e.j)}`);
+      ctx.beginPath();
+      ctx.moveTo(pa.x, pa.y);
+      ctx.lineTo(pb.x, pb.y);
+      const base = mst ? 0.52 : 0.22;
+      ctx.strokeStyle = eh > 0.04 ? glow(base + 0.48 * eh) : white(base);
+      ctx.lineWidth = (mst ? 1.2 : 0.75) + 0.9 * eh;
+      ctx.stroke();
+    }
+
+    for (const [pts, tag] of [[left, "L"], [right, "R"]] as [Pt[], string][]) {
+      for (let i = 0; i < pts.length; i++) {
+        const p = pts[i];
+        const vh = vHeat.get(`${tag}:${i}`) ?? 0;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, 1.2 + 1.6 * vh, 0, Math.PI * 2);
+        ctx.fillStyle = vh > 0.04 ? glow(0.72 + 0.28 * vh) : white(0.72);
+        ctx.fill();
+      }
+    }
+
+    ctx.save();
+    ctx.globalCompositeOperation = "destination-in";
+    const veil = ctx.createLinearGradient(0, 0, w, 0);
+    const hold = gutter * 0.5 / w;
+    const gone = gutter * 0.96 / w;
+    veil.addColorStop(0, "#fff");
+    veil.addColorStop(hold, "#fff");
+    veil.addColorStop(gone, "rgba(255,255,255,0)");
+    veil.addColorStop(1 - gone, "rgba(255,255,255,0)");
+    veil.addColorStop(1 - hold, "#fff");
+    veil.addColorStop(1, "#fff");
+    ctx.fillStyle = veil;
+    ctx.fillRect(0, 0, w, h);
+    ctx.restore();
+
+    live = maxHeat > 0.01 || hovered >= 0;
+  }
+
+  function tick(ts: number) {
+    const dt = Math.min(0.05, (ts - lastTs) / 1000 || 0.016);
+    lastTs = ts;
+    draw(dt);
+    if (live) raf = requestAnimationFrame(tick);
+    else raf = 0;
+  }
+
+  function kick() {
+    if (raf) return;
+    lastTs = performance.now();
+    raf = requestAnimationFrame(tick);
+  }
+
+  function onMove(ev: MouseEvent) {
+    mouse.x = ev.clientX;
+    mouse.y = ev.clientY;
+    kick();
+  }
+
+  function onLeave() {
+    mouse.x = -1e9;
+    mouse.y = -1e9;
+    kick();
+  }
+
+  function onResize() {
+    cancelAnimationFrame(raf);
+    raf = 0;
+    build();
+    draw(1);
+  }
+
+  build();
+  draw(1);
+  window.addEventListener("resize", onResize, { passive: true });
+  window.addEventListener("mousemove", onMove, { passive: true });
+  document.addEventListener("mouseleave", onLeave);
+</script>

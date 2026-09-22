@@ -1,0 +1,68 @@
+---
+import SiteLayout from "../layouts/SiteLayout.astro";
+import { site, publications, projects, education, work, contests } from "../data/site";
+---
+<SiteLayout>
+  <header style="display:flex;gap:1.25rem;align-items:center;margin-bottom:1.75rem;">
+    <img class="portrait" src="/profile.jpg" alt="" />
+    <div>
+      <p class="kicker">{site.role}</p>
+      <h1>{site.name}</h1>
+    </div>
+  </header>
+  <p class="lede">{site.bio}</p>
+
+  <h2>Publications</h2>
+  <ul class="list">
+    {publications.map((p) => (
+      <li>
+        {p.title}
+        {p.original && <> ({p.original})</>}
+        <span class="meta">
+          {p.kind !== "paper" && p.venue}
+          {p.links?.length ? (
+            <>
+              {p.kind !== "paper" && " · "}
+              {p.links.map((l, i) => (
+                <>
+                  {i > 0 && " · "}
+                  <a href={l.href}>{l.label}</a>
+                </>
+              ))}
+            </>
+          ) : null}
+        </span>
+      </li>
+    ))}
+  </ul>
+
+  <h2>GitHub</h2>
+  <ul class="list">
+    {projects.map((p) => (
+      <li>
+        <a href={p.href}>{p.name}</a>
+        <span class="meta">{p.lang} · {p.blurb}</span>
+      </li>
+    ))}
+  </ul>
+
+  <h2>Experience</h2>
+  <ul class="list">
+    {[...education, ...work].map((e) => (
+      <li>
+        {e.title}, {e.place}
+        <span class="meta">{e.dates}</span>
+      </li>
+    ))}
+  </ul>
+
+  <h2>ICPC</h2>
+  <ul class="list">
+    {contests.slice(0, 4).map((c) => (
+      <li>
+        {c.href ? <a href={c.href}>{c.title}</a> : c.title}
+        <span class="meta">{c.detail}</span>
+      </li>
+    ))}
+  </ul>
+</SiteLayout>

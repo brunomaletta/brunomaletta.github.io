@@ -1,0 +1,24 @@
+---
+import Base from "./Base.astro";
+import Nav from "../components/Nav.astro";
+import AlgoBg from "../components/AlgoBg.astro";
+import "../styles/site.css";
+
+interface Props {
+  title?: string;
+  description?: string;
+  current?: string;
+}
+const { title, description, current } = Astro.props;
+---
+<Base title={title} description={description}>
+  <div class="tricolor" aria-hidden="true"><i></i><i></i><i></i></div>
+  <AlgoBg />
+  <div class="shell">
+    <Nav current={current} />
+    <main class="site-main">
+      <slot />
+    </main>
+    <footer class="site-foot">Bruno Monteiro</footer>
+  </div>
+</Base>

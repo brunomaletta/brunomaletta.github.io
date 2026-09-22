@@ -1,0 +1,23 @@
+---
+import SiteLayout from "../layouts/SiteLayout.astro";
+import { projects } from "../data/site";
+---
+<SiteLayout title="Projects" current="/projects">
+  <p class="kicker">GitHub</p>
+  <h1>Selected repositories</h1>
+  <p class="lede">Not every public repo — the ones I still point people to.</p>
+  <ul class="list" style="margin-top:2rem;">
+    {projects.map((p) => (
+      <li>
+        <a href={p.href}>{p.name}</a>
+        {p.docs && (
+          <> · <a href={p.docs}>docs</a></>
+        )}
+        {p.related && (
+          <> · <a href={p.related}>on this site</a></>
+        )}
+        <span class="meta">{p.lang} · {p.blurb}</span>
+      </li>
+    ))}
+  </ul>
+</SiteLayout>

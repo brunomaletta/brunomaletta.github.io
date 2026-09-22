@@ -1,0 +1,11 @@
+---
+import { site } from "../data/site";
+---
+<p class="socials">
+  {site.socials.map((s, i) => (
+    <>
+      {i > 0 && <span aria-hidden="true"> · </span>}
+      <a href={s.href}>{s.label}</a>
+    </>
+  ))}
+</p>

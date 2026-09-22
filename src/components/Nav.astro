@@ -1,0 +1,21 @@
+---
+import { site } from "../data/site";
+
+interface Props {
+  current?: string;
+  inverted?: boolean;
+}
+const { current, inverted = false } = Astro.props;
+---
+<nav class:list={["nav", { inverted }]}>
+  <a class="wordmark" href="/">{site.name}</a>
+  <ul>
+    {site.nav.map((item) => (
+      <li>
+        <a href={item.href} aria-current={current === item.href ? "page" : undefined}>
+          {item.label}
+        </a>
+      </li>
+    ))}
+  </ul>
+</nav>

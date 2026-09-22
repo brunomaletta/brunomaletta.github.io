@@ -1,0 +1,109 @@
+---
+import SiteLayout from "../layouts/SiteLayout.astro";
+import { site, education, work, teaching, contests, projects, publications } from "../data/site";
+---
+<SiteLayout title="CV" current="/cv">
+  <p class="kicker">Curriculum vitae</p>
+  <h1>{site.fullName}</h1>
+  <p class="lede">{site.role}. Previously software engineer at Google.</p>
+  <p class="socials">
+    {[
+      ...site.socials,
+      { label: "Lattes", href: site.lattes },
+      { label: "ORCID", href: site.orcid },
+    ].map((s, i) => (
+      <>
+        {i > 0 && <span aria-hidden="true"> · </span>}
+        <a href={s.href}>{s.label}</a>
+      </>
+    ))}
+  </p>
+
+  <h2>Education</h2>
+  <ul class="list">
+    {education.map((e) => (
+      <li>
+        <strong>{e.title}</strong>, {e.place}
+        <span class="meta">{e.dates}{e.detail ? ` · ${e.detail}` : ""}</span>
+      </li>
+    ))}
+  </ul>
+
+  <h2>Work</h2>
+  <ul class="list">
+    {work.map((e) => (
+      <li>
+        <strong>{e.title}</strong>, {e.place}
+        <span class="meta">{e.dates}{e.detail ? ` · ${e.detail}` : ""}</span>
+      </li>
+    ))}
+  </ul>
+
+  <h2>Research</h2>
+  <ul class="list">
+    {publications.map((p) => (
+      <li>
+        {p.title}
+        {p.original && <em> ({p.original})</em>}
+        <span class="meta">
+          {p.authors}.
+          {p.kind !== "paper" && <> {p.venue}</>}
+          {p.links?.length ? (
+            <>
+              {" "}
+              {p.links.map((l, i) => (
+                <>
+                  {i > 0 && " · "}
+                  <a href={l.href}>{l.label}</a>
+                </>
+              ))}
+            </>
+          ) : null}
+        </span>
+      </li>
+    ))}
+  </ul>
+
+  <h2>Teaching</h2>
+  <ul class="list">
+    {teaching.map((e) => (
+      <li>
+        <strong>{e.title}</strong>, {e.place}
+        <span class="meta">
+          {e.dates}{e.detail ? ` · ${e.detail}` : ""}
+          {e.links?.length ? (
+            <>
+              {" · "}
+              {e.links.map((l, i) => (
+                <>
+                  {i > 0 && " · "}
+                  <a href={l.href}>{l.label}</a>
+                </>
+              ))}
+            </>
+          ) : null}
+        </span>
+      </li>
+    ))}
+  </ul>
+
+  <h2>ICPC</h2>
+  <ul class="list">
+    {contests.map((c) => (
+      <li>
+        {c.href ? <a href={c.href}>{c.title}</a> : <strong>{c.title}</strong>}
+        <span class="meta">{c.detail}</span>
+      </li>
+    ))}
+  </ul>
+
+  <h2>Selected projects</h2>
+  <ul class="list">
+    {projects.map((p) => (
+      <li>
+        <a href={p.href}>{p.name}</a>
+        <span class="meta">{p.lang} · {p.blurb}</span>
+      </li>
+    ))}
+  </ul>
+</SiteLayout>

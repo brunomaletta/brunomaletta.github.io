@@ -1,0 +1,90 @@
+---
+import SiteLayout from "../../layouts/SiteLayout.astro";
+import { getCollection, render } from "astro:content";
+import type { CollectionEntry } from "astro:content";
+
+export async function getStaticPaths() {
+  const posts = (await getCollection("writing")).sort(
+    (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+  );
+  return posts.map((post, i) => ({
+    params: { slug: post.id },
+    props: {
+      post,
+      newer: posts[i - 1] ?? null,
+      older: posts[i + 1] ?? null,
+    },
+  }));
+}
+
+interface Props {
+  post: CollectionEntry<"writing">;
+  newer: CollectionEntry<"writing"> | null;
+  older: CollectionEntry<"writing"> | null;
+}
+
+const { post, newer, older } = Astro.props;
+const { Content } = await render(post);
+---
+<SiteLayout title={post.data.title} current="/writing">
+  <p class="kicker">Writing</p>
+  <h1>{post.data.title}</h1>
+  <p class="meta" style="font-family:var(--mono);font-size:0.8rem;color:var(--muted);">
+    {post.data.date.toISOString().slice(0, 10)}
+    · Originally published on
+    <a href={post.data.cfUrl}>Codeforces</a>
+  </p>
+  <article class="prose" style="margin-top:2rem;">
+    <Content />
+  </article>
+  <nav class="post-nav" aria-label="Other posts">
+    {older ? (
+      <a class="post-nav-btn" href={`/writing/${older.id}`}>
+        <span class="dir">Previous</span>
+        <span class="ttl">{older.data.title}</span>
+      </a>
+    ) : <span></span>}
+    {newer ? (
+      <a class="post-nav-btn next" href={`/writing/${newer.id}`}>
+        <span class="dir">Next</span>
+        <span class="ttl">{newer.data.title}</span>
+      </a>
+    ) : null}
+  </nav>
+  <script>
+    document.querySelectorAll("article.prose pre").forEach((pre) => {
+      if (pre.parentElement?.classList.contains("code-block")) return;
+      const wrap = document.createElement("div");
+      wrap.className = "code-block";
+      pre.parentNode.insertBefore(wrap, pre);
+      wrap.appendChild(pre);
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "copy-code";
+      btn.textContent = "Copy";
+      btn.addEventListener("click", async () => {
+        const text = pre.querySelector("code")?.textContent ?? pre.textContent ?? "";
+        try {
+          await navigator.clipboard.writeText(text);
+        } catch {
+          const ta = document.createElement("textarea");
+          ta.value = text;
+          ta.setAttribute("readonly", "");
+          ta.style.position = "fixed";
+          ta.style.left = "-9999px";
+          document.body.appendChild(ta);
+          ta.select();
+          document.execCommand("copy");
+          ta.remove();
+        }
+        btn.textContent = "Copied";
+        btn.dataset.copied = "true";
+        setTimeout(() => {
+          btn.textContent = "Copy";
+          delete btn.dataset.copied;
+        }, 1600);
+      });
+      wrap.appendChild(btn);
+    });
+  </script>
+</SiteLayout>

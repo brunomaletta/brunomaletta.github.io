@@ -1,0 +1,47 @@
+---
+import SiteLayout from "../layouts/SiteLayout.astro";
+import { film, races, pbs, other } from "../data/site";
+---
+<SiteLayout title="Running" current="/running">
+  <p class="kicker">Running</p>
+  <h1>Ultras, PBs, a film</h1>
+  <p class="lede">{film.blurb}</p>
+
+  <div class="pb" style="margin:2rem 0;">
+    {pbs.map((p) => (
+      <div>
+        {p.dist}
+        <strong><a href={p.href}>{p.time}</a></strong>
+        {p.note && <span class="meta">{p.note}</span>}
+      </div>
+    ))}
+  </div>
+
+  <h2>{film.title}</h2>
+  <p>
+    Fastest Known Time on a route I designed with friends, linking three former capitals of Minas Gerais.
+    <a href="https://fastestknowntime.com/fkt/bruno-monteiro-rota-das-capitais-2024-05-19">FKT listing</a>
+    · <a href={film.watch}>Watch</a>
+  </p>
+  <iframe src={film.youtube} title={film.title} allowfullscreen style="width:100%;aspect-ratio:16/9;border:0;"></iframe>
+
+  <h2 style="margin-top:2.5rem;">Races and projects</h2>
+  <ul class="list">
+    {races.map((r) => (
+      <li>
+        <a href={r.href}>{r.name}</a>
+        <span class="meta">{r.detail}</span>
+      </li>
+    ))}
+  </ul>
+
+  <h2>Other fun facts</h2>
+  <ul class="list">
+    {other.map((o) => (
+      <li>
+        {o.href ? <a href={o.href}>{o.title}</a> : o.title}
+        <span class="meta">{o.detail}</span>
+      </li>
+    ))}
+  </ul>
+</SiteLayout>
