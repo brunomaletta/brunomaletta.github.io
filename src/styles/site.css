@@ -114,6 +114,26 @@ h3 { font-size: 1.2rem; font-weight: 600; }
   color: var(--gold);
   margin: 0 0 0.5rem;
 }
+.problem-groups { margin-top: 2rem; }
+.problem-groups section + section { margin-top: 2.5rem; }
+.problem-groups h2 { font-size: 1.25rem; margin-bottom: 0.35rem; }
+.problem-list li { display: grid; grid-template-columns: 1.1rem 1fr; gap: 0.45rem; align-items: baseline; }
+.problem-letter { font-family: var(--mono); color: var(--gold); font-weight: 600; }
+.problem-meta { display: flex; flex-wrap: wrap; gap: 0.35rem 1rem; margin: 1rem 0 2rem; font: 0.78rem var(--sans); color: var(--muted); }
+.problem-meta span + span::before { content: "·"; margin-right: 1rem; color: var(--rule); }
+.problem-prose { max-width: 52rem; }
+.problem-prose h2 { padding-top: 0.5rem; border-top: 1px solid var(--rule); }
+.problem-prose blockquote { margin: 1.25rem 0; padding: 0.25rem 1rem; border-left: 3px solid var(--green); color: var(--muted); }
+.sample-io { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.8rem; margin: 1.25rem 0; }
+.sample-box { min-width: 0; overflow: hidden; border: 1px solid var(--rule); border-radius: 6px; background: #0e1512; }
+.sample-label { padding: 0.42rem 0.75rem; border-bottom: 1px solid var(--rule); font: 600 0.7rem var(--sans); letter-spacing: 0.08em; text-transform: uppercase; color: var(--gold); background: #1c2420; }
+.problem-prose .sample-box pre { margin: 0; border: 0; border-radius: 0; }
+@media (max-width: 600px) { .sample-io { grid-template-columns: 1fr; } }
+.tutorial-disclosure { margin-top: 2.5rem; border: 1px solid var(--rule); border-radius: 6px; background: #171f1b; }
+.tutorial-disclosure summary { cursor: pointer; padding: 0.85rem 1rem; font: 600 0.85rem var(--sans); color: var(--gold); }
+.tutorial-disclosure summary:hover { color: var(--ink); }
+.tutorial-body { padding: 0 1rem 1rem; border-top: 1px solid var(--rule); }
+.tutorial-body h2 { margin-top: 1.25rem; border-top: 0; }
 
 .list { list-style: none; padding: 0; margin: 0; }
 .list li { padding: 0.85rem 0; border-bottom: 1px solid var(--rule); }

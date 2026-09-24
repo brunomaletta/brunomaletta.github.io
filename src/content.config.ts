@@ -13,4 +13,13 @@ const writing = defineCollection({
   }),
 });
 
-export const collections = { writing };
+const problems = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/problems' }),
+  schema: z.object({
+    title: z.string(), contest: z.string(), year: z.number(), letter: z.string(),
+    authors: z.array(z.string()).default([]), timeLimit: z.string().optional(),
+    memoryLimit: z.string().optional(), sourceUrl: z.string().optional(), summary: z.string(),
+  }),
+});
+
+export const collections = { writing, problems };

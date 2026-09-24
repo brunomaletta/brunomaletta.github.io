@@ -1,0 +1,48 @@
+---
+import SiteLayout from "../../layouts/SiteLayout.astro";
+import { getCollection, render } from "astro:content";
+import type { CollectionEntry } from "astro:content";
+export async function getStaticPaths() { return (await getCollection("problems")).map((problem) => ({ params: { slug: problem.id }, props: { problem } })); }
+interface Props { problem: CollectionEntry<"problems">; }
+const { problem } = Astro.props;
+const { Content } = await render(problem);
+---
+<SiteLayout title={problem.data.title} current="/problems">
+  <p class="kicker">{problem.data.contest} · Problem {problem.data.letter}</p><h1>{problem.data.title}</h1>
+  <div class="problem-meta"><span>{problem.data.year}</span>{problem.data.timeLimit && <span>{problem.data.timeLimit}</span>}{problem.data.memoryLimit && <span>{problem.data.memoryLimit}</span>}{problem.data.authors.length > 0 && <span>By {problem.data.authors.join(", ")}</span>}{problem.data.sourceUrl && <a href={problem.data.sourceUrl}>Original problem set</a>}</div>
+  <article class="prose problem-prose"><Content /></article>
+  <script>
+    const article = document.querySelector(".problem-prose");
+    article?.querySelectorAll("pre").forEach((pre) => {
+      const text = pre.textContent?.trim() ?? "";
+      const match = text.match(/^Input\n([\s\S]*?)\n\nOutput\n([\s\S]*)$/);
+      if (!match) return;
+      const pair = document.createElement("div");
+      pair.className = "sample-io";
+      for (const [label, value] of [["Input", match[1]], ["Output", match[2]]]) {
+        const box = document.createElement("div");
+        box.className = "sample-box";
+        const title = document.createElement("div");
+        title.className = "sample-label";
+        title.textContent = label;
+        const nextPre = document.createElement("pre");
+        const code = document.createElement("code");
+        code.textContent = value.trim();
+        nextPre.append(code); box.append(title, nextPre); pair.append(box);
+      }
+      pre.replaceWith(pair);
+    });
+    const heading = [...(article?.querySelectorAll("h2") ?? [])].find((h) => h.textContent?.trim() === "Tutorial");
+    if (article && heading) {
+      const details = document.createElement("details");
+      details.className = "tutorial-disclosure";
+      const summary = document.createElement("summary");
+      summary.textContent = "Show tutorial";
+      const body = document.createElement("div");
+      body.className = "tutorial-body";
+      heading.before(details); details.append(summary, body); body.append(heading);
+      while (details.nextSibling) body.append(details.nextSibling);
+      details.addEventListener("toggle", () => { summary.textContent = details.open ? "Hide tutorial" : "Show tutorial"; });
+    }
+  </script>
+</SiteLayout>

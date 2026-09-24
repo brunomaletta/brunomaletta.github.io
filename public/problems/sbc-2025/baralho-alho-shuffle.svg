@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 330" role="img" aria-labelledby="title desc">
+  <title id="title">Example of the Baralho Alho shuffle</title>
+  <desc id="desc">Cards 4, 2, 6, 1 move according to permutation 3, 2, 4, 1 and become 1, 2, 4, 6.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#d4b24a"/>
+    </marker>
+    <style>
+      .label { fill: #a39e93; font: 500 18px 'Source Sans 3', system-ui, sans-serif; letter-spacing: .08em; text-transform: uppercase; }
+      .value { fill: #ece6d8; font: 600 28px 'IBM Plex Mono', ui-monospace, monospace; text-anchor: middle; dominant-baseline: central; }
+      .position { fill: #7a9a7e; font: 500 15px 'IBM Plex Mono', ui-monospace, monospace; text-anchor: middle; }
+      .card { fill: #1c2420; stroke: #7a9a7e; stroke-width: 2; rx: 7; }
+      .move { fill: none; stroke: #d4b24a; stroke-width: 2.5; marker-end: url(#arrow); opacity: .9; }
+    </style>
+  </defs>
+
+  <text class="label" x="62" y="87">Before</text>
+  <text class="label" x="62" y="261">After</text>
+
+  <g aria-label="Initial deck">
+    <text class="position" x="285" y="37">1</text><rect class="card" x="247" y="48" width="76" height="62"/><text class="value" x="285" y="79">4</text>
+    <text class="position" x="405" y="37">2</text><rect class="card" x="367" y="48" width="76" height="62"/><text class="value" x="405" y="79">2</text>
+    <text class="position" x="525" y="37">3</text><rect class="card" x="487" y="48" width="76" height="62"/><text class="value" x="525" y="79">6</text>
+    <text class="position" x="645" y="37">4</text><rect class="card" x="607" y="48" width="76" height="62"/><text class="value" x="645" y="79">1</text>
+  </g>
+
+  <path class="move" d="M285 114 C285 165 525 165 525 216"/>
+  <path class="move" d="M405 114 L405 216"/>
+  <path class="move" d="M525 114 C525 165 645 165 645 216"/>
+  <path class="move" d="M645 114 C645 165 285 165 285 216"/>
+
+  <g aria-label="Shuffled deck">
+    <rect class="card" x="247" y="220" width="76" height="62"/><text class="value" x="285" y="251">1</text><text class="position" x="285" y="306">1</text>
+    <rect class="card" x="367" y="220" width="76" height="62"/><text class="value" x="405" y="251">2</text><text class="position" x="405" y="306">2</text>
+    <rect class="card" x="487" y="220" width="76" height="62"/><text class="value" x="525" y="251">4</text><text class="position" x="525" y="306">3</text>
+    <rect class="card" x="607" y="220" width="76" height="62"/><text class="value" x="645" y="251">6</text><text class="position" x="645" y="306">4</text>
+  </g>
+
+  <text class="position" x="790" y="164">P = [3, 2, 4, 1]</text>
+</svg>

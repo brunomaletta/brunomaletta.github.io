@@ -1,0 +1,11 @@
+---
+import SiteLayout from "../../layouts/SiteLayout.astro";
+import { getCollection } from "astro:content";
+const problems = (await getCollection("problems")).sort((a, b) => b.data.year - a.data.year || a.data.contest.localeCompare(b.data.contest) || a.data.letter.localeCompare(b.data.letter));
+const groups = Map.groupBy(problems, (p) => `${p.data.contest} · ${p.data.year}`);
+---
+<SiteLayout title="Problems" current="/problems">
+  <p class="kicker">Problemsetting</p><h1>Competitive programming problems</h1>
+  <p class="lede">Some of my favorite ICPC problems I helped create, with English statements and tutorials.</p>
+  <div class="problem-groups">{[...groups].map(([contest, entries]) => <section><h2>{contest}</h2><ul class="list problem-list">{entries.map((p) => <li><span class="problem-letter">{p.data.letter}</span><span><a href={`/problems/${p.id}`}>{p.data.title}</a><span class="meta">{p.data.summary}</span></span></li>)}</ul></section>)}</div>
+</SiteLayout>
