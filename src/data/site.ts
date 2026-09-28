@@ -11,16 +11,13 @@ export const site = {
     { label: "GitHub", href: "https://github.com/brunomaletta" },
     { label: "LinkedIn", href: "https://www.linkedin.com/in/brunomont/" },
   ],
-  bio: "I study algorithms, mostly strings and data structures. Before Peking University I was a software engineer at Google in Belo Horizonte, and I still write contest code, maintain an ICPC library, and go on very long runs.",
+  bio: "I study algorithms. Before Peking University I was a software engineer at Google in Belo Horizonte, and I still write contest code, maintain an ICPC library, and go on very long runs.",
   nav: [
     { href: "/", label: "Home" },
-    { href: "/cv", label: "CV" },
-    { href: "/research", label: "Research" },
-    { href: "/writing", label: "Writing" },
+    { href: "/writing", label: "Posts" },
     { href: "/problems", label: "Problems" },
     { href: "/projects", label: "Projects" },
-    { href: "/influences", label: "Influences" },
-    { href: "/running", label: "Running" },
+    { href: "/cv", label: "CV" },
   ],
 };
 
@@ -153,6 +150,7 @@ export const publications = [
     links: [
       { label: "SPIRE 2025", href: "https://link.springer.com/chapter/10.1007/978-3-032-05228-5_17" },
       { label: "arXiv:2506.11318", href: "https://arxiv.org/abs/2506.11318" },
+      { label: "Master's thesis", href: "/papers/masters-thesis.pdf" },
     ],
     blurb:
       "String matching when the pattern is edited: insert and delete characters, then count occurrences in a static text. Using suffix arrays we get O(log |T|) updates after O(|T|) preprocess, and the same bounds for substring delete, transpose, and copy, plus an online text.",
@@ -251,7 +249,7 @@ export const projects: Project[] = [
 export const races = [
   {
     name: "Todas as ruas dentro da Contorno",
-    detail: "Chinese Postman tour of every street inside BH's Contorno. About 180 km, 33 hours.",
+    detail: "Chinese Postman tour of every street inside BH's Contorno. About 180 km, 34 hours.",
     href: "https://www.strava.com/activities/13074215849",
   },
   {
@@ -344,14 +342,14 @@ export const other = [
   {
     title: "Started coding at the age of 6 months",
     detail: "Photographic evidence.",
-    href: "/codando.jpg",
+    href: "/coding.jpg",
   },
   {
     title: "Rubik's Cube",
-    detail: "Single 10.65 s. Average of 5: 13.45.",
+    detail: "Personal best — single: 10.65 s. Average of 5: 13.45.",
   },
   {
     title: "Breath hold",
-    detail: "3 min 4 s, underwater.",
+    detail: "Personal best: 3 min 4 s, underwater.",
   },
 ];

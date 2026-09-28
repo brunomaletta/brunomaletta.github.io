@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 180" role="img" aria-labelledby="title">
+  <title id="title">Distinct generation diagram</title>
+  <rect width="320" height="180" fill="#fff"/>
+  <g fill="none" stroke="#17324d" stroke-width="2">
+    <circle cx="46" cy="54" r="17"/><circle cx="96" cy="54" r="17"/><circle cx="146" cy="54" r="17"/><circle cx="196" cy="54" r="17"/><circle cx="246" cy="54" r="17"/>
+    <path d="M146 80v24m-7-8 7 8 7-8"/>
+    <rect x="61" y="119" width="48" height="35"/><rect x="111" y="119" width="48" height="35"/><rect x="161" y="119" width="48" height="35"/>
+  </g>
+  <g fill="#4672a6" font-family="ui-monospace,monospace" font-size="16" text-anchor="middle">
+    <text x="46" y="60">0</text><text x="96" y="60">1</text><text x="146" y="60">2</text><text x="196" y="60">3</text><text x="246" y="60">4</text>
+  </g>
+  <g fill="#d56551" font-family="ui-monospace,monospace" font-size="17" text-anchor="middle">
+    <text x="85" y="142">3</text><text x="135" y="142">0</text><text x="185" y="142">4</text>
+  </g>
+</svg>

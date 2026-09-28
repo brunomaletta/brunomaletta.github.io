@@ -1,0 +1,116 @@
+<div class="hero-art" data-hero-art aria-hidden="true">
+  <svg viewBox="0 0 640 600" role="img">
+    <defs>
+      <pattern id="dots" width="22" height="22" patternUnits="userSpaceOnUse">
+        <circle cx="2" cy="2" r="1.4" fill="currentColor" opacity=".22" />
+      </pattern>
+      <clipPath id="portrait-clip"><circle cx="233" cy="221" r="74" /></clipPath>
+    </defs>
+
+    <rect x="28" y="25" width="584" height="540" rx="2" fill="#f5f2ea" />
+
+    <g class="art-layer art-orbits" data-depth="-0.28">
+      <rect x="58" y="55" width="225" height="176" fill="url(#dots)" color="#294d70" />
+      <g fill="none" stroke="#20334e" stroke-width="1.3" opacity=".42">
+        <circle cx="233" cy="221" r="132" />
+        <circle cx="233" cy="221" r="181" stroke-dasharray="2 8" />
+      </g>
+    </g>
+
+    <g class="art-layer art-network" data-depth="0.48">
+      <g class="graph-lines" fill="none" stroke="#20334e" stroke-width="1.3" opacity=".42">
+        <path d="M89 118 156 82 233 104 305 67 376 130 444 92 535 149" />
+        <path d="M89 118 126 180 203 151 267 192 342 155 410 215 493 184 535 149" />
+      </g>
+      <g class="graph-nodes" fill="#20334e">
+        <circle class="graph-node" cx="89" cy="118" r="5" /><circle class="graph-node" cx="156" cy="82" r="4" />
+        <circle class="graph-node" cx="233" cy="104" r="5" /><circle class="graph-node" cx="305" cy="67" r="4" />
+        <circle class="graph-node" cx="376" cy="130" r="5" /><circle class="graph-node" cx="444" cy="92" r="4" />
+        <circle class="graph-node" cx="535" cy="149" r="5" /><circle class="graph-node" cx="126" cy="180" r="4" />
+        <circle class="graph-node" cx="203" cy="151" r="4" /><circle class="graph-node" cx="267" cy="192" r="4" />
+        <circle class="graph-node" cx="342" cy="155" r="4" /><circle class="graph-node" cx="410" cy="215" r="4" />
+        <circle class="graph-node" cx="493" cy="184" r="4" />
+      </g>
+    </g>
+
+    <g class="art-layer art-route" data-depth="0.34" fill="none" stroke="#20334e" stroke-width="1.3" opacity=".48">
+      <path class="route-trace" pathLength="1" d="M68 396 C128 314 171 355 225 282 S347 171 426 224 S523 363 582 292" />
+      <path d="M58 485 C138 411 183 506 258 422 S393 340 454 399 S537 472 590 430" stroke-dasharray="5 6" />
+    </g>
+
+    <g class="art-layer art-portrait" data-depth="0.2">
+      <circle cx="233" cy="221" r="82" fill="#d8b45d" opacity=".72" />
+      <image href="/profile.jpg" x="159" y="147" width="148" height="148" preserveAspectRatio="xMidYMin slice" clip-path="url(#portrait-clip)" />
+      <circle cx="233" cy="221" r="74" fill="none" stroke="#20334e" stroke-width="2" />
+    </g>
+
+    <g class="art-layer art-shapes" data-depth="-0.38">
+      <circle cx="430" cy="322" r="73" fill="#86a5a0" opacity=".32" />
+      <circle cx="493" cy="382" r="39" fill="#c65e3f" opacity=".78" />
+      <rect x="116" y="345" width="66" height="134" fill="#20334e" />
+      <rect x="187" y="383" width="24" height="96" fill="#c65e3f" />
+      <rect x="216" y="321" width="13" height="158" fill="#d8b45d" />
+    </g>
+
+    <g class="art-layer art-labels" data-depth="0.12" font-family="IBM Plex Mono, monospace" font-size="13" fill="#20334e" opacity=".78">
+      <text x="78" y="276">O(n log n)</text>
+      <text x="397" y="288">x⁻¹ mod p</text>
+      <text x="394" y="485">V − E + F = 2</text>
+      <text x="72" y="528">strings · graphs · very long runs</text>
+    </g>
+
+    <g class="art-layer art-points" data-depth="-0.18" fill="#294d70" opacity=".82">
+      <circle cx="329" cy="260" r="3" /><circle cx="350" cy="278" r="3" />
+      <circle cx="371" cy="255" r="3" /><circle cx="393" cy="273" r="3" />
+      <circle cx="415" cy="250" r="3" /><circle cx="438" cy="269" r="3" />
+      <circle cx="460" cy="246" r="3" /><circle cx="483" cy="264" r="3" />
+    </g>
+  </svg>
+</div>
+
+<script>
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+  const finePointer = window.matchMedia("(pointer: fine)");
+
+  document.querySelectorAll<HTMLElement>("[data-hero-art]:not([data-ready])").forEach((art) => {
+    art.dataset.ready = "true";
+    if (reduceMotion.matches || !finePointer.matches) return;
+
+    const layers = [...art.querySelectorAll<SVGGElement>("[data-depth]")];
+    let frame = 0;
+    let targetX = 0;
+    let targetY = 0;
+
+    const render = () => {
+      frame = 0;
+      for (const layer of layers) {
+        const depth = Number(layer.dataset.depth ?? 0);
+        layer.style.transform = `translate(${targetX * depth * 20}px, ${targetY * depth * 20}px)`;
+      }
+    };
+
+    art.addEventListener("pointermove", (event) => {
+      const box = art.getBoundingClientRect();
+      targetX = ((event.clientX - box.left) / box.width - 0.5) * 2;
+      targetY = ((event.clientY - box.top) / box.height - 0.5) * 2;
+      if (!frame) frame = requestAnimationFrame(render);
+    });
+
+    art.addEventListener("pointerleave", () => {
+      targetX = 0;
+      targetY = 0;
+      if (!frame) frame = requestAnimationFrame(render);
+    });
+
+    art.querySelectorAll<SVGCircleElement>(".graph-node").forEach((node) => {
+      node.addEventListener("pointerenter", () => {
+        art.classList.add("node-active");
+        node.classList.add("active");
+      });
+      node.addEventListener("pointerleave", () => {
+        art.classList.remove("node-active");
+        node.classList.remove("active");
+      });
+    });
+  });
+</script>

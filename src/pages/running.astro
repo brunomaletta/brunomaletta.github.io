@@ -18,10 +18,13 @@ import { film, races, pbs, other } from "../data/site";
   </div>
 
   <h2>{film.title}</h2>
+  <p class="title-links">
+    <a href="https://fastestknowntime.com/fkt/bruno-monteiro-rota-das-capitais-2024-05-19">FKT listing</a>
+    <span aria-hidden="true">·</span>
+    <a href={film.watch}>Watch</a>
+  </p>
   <p>
     Fastest Known Time on a route I designed with friends, linking three former capitals of Minas Gerais.
-    <a href="https://fastestknowntime.com/fkt/bruno-monteiro-rota-das-capitais-2024-05-19">FKT listing</a>
-    · <a href={film.watch}>Watch</a>
   </p>
   <iframe src={film.youtube} title={film.title} allowfullscreen style="width:100%;aspect-ratio:16/9;border:0;"></iframe>
 

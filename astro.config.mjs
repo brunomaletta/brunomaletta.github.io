@@ -8,7 +8,7 @@ export default defineConfig({
     remarkPlugins: [[remarkMath, { singleDollarTextMath: true }]],
     rehypePlugins: [rehypeKatex],
     shikiConfig: {
-      theme: 'github-dark',
+      theme: 'github-light',
       wrap: true,
     },
   },

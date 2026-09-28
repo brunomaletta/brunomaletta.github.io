@@ -1,0 +1,27 @@
+---
+interface Props { name: "Codeforces" | "GitHub" | "LinkedIn" | "Email"; }
+const { name } = Astro.props;
+---
+{name === "Codeforces" && (
+  <svg viewBox="0 0 24 24" aria-hidden="true">
+    <rect x="4" y="9" width="4" height="10" rx="1" fill="#f2c94c" />
+    <rect x="10" y="5" width="4" height="14" rx="1" fill="#4f77a8" />
+    <rect x="16" y="11" width="4" height="8" rx="1" fill="#c85c4a" />
+  </svg>
+)}
+{name === "GitHub" && (
+  <svg viewBox="0 0 24 24" aria-hidden="true">
+    <path fill="currentColor" d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.87c-2.78.6-3.37-1.18-3.37-1.18-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.61.07-.61 1 .07 1.53 1.03 1.53 1.03.9 1.53 2.35 1.09 2.92.83.09-.65.35-1.09.64-1.34-2.22-.25-4.56-1.11-4.56-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02A9.55 9.55 0 0 1 12 6.82c.85 0 1.71.11 2.51.34 1.91-1.29 2.75-1.02 2.75-1.02.55 1.37.2 2.39.1 2.64.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.86V21c0 .27.18.58.69.48A10 10 0 0 0 12 2Z" />
+  </svg>
+)}
+{name === "LinkedIn" && (
+  <svg viewBox="0 0 24 24" aria-hidden="true">
+    <path fill="currentColor" d="M5.3 3.6A2.3 2.3 0 1 1 5.3 8.2a2.3 2.3 0 0 1 0-4.6ZM3.4 9.8h3.8V21H3.4V9.8Zm6.1 0h3.6v1.5h.05c.5-.95 1.73-1.95 3.56-1.95 3.81 0 4.51 2.51 4.51 5.77V21h-3.77v-5.21c0-1.24-.02-2.84-1.73-2.84-1.74 0-2 1.35-2 2.75V21H9.5V9.8Z" />
+  </svg>
+)}
+{name === "Email" && (
+  <svg viewBox="0 0 24 24" aria-hidden="true">
+    <path d="M3.5 6.5h17v12h-17z" fill="none" stroke="currentColor" stroke-width="1.7" />
+    <path d="m4.2 7.3 7.8 6 7.8-6" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" />
+  </svg>
+)}

@@ -5,16 +5,104 @@ import { getCollection } from "astro:content";
 const posts = (await getCollection("writing")).sort(
   (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
 );
+
+const covers: Record<string, { src: string; alt: string; fit?: "contain" }> = {
+  "tgen-miniblog-3-alias-method": {
+    src: "/writing/thumb-alias-method.svg",
+    alt: "Probability columns illustrating the alias method",
+    fit: "contain",
+  },
+  "tgen-miniblog-2-fisher-yates": {
+    src: "/writing/thumb-fisher-yates.svg",
+    alt: "An array element being swapped in the Fisher-Yates shuffle",
+    fit: "contain",
+  },
+  "tgen-miniblog-1-uniform-generation": {
+    src: "/writing/thumb-distinct-generation.svg",
+    alt: "Uniform samples becoming a distinct generated sequence",
+    fit: "contain",
+  },
+  "tgen-miniblog-6-random-non-collinear-points": {
+    src: "/writing/157202-3.png",
+    alt: "Random non-collinear points after invertible shears",
+  },
+  "tgen-miniblog-5-random-graphs": {
+    src: "/writing/156865-2.png",
+    alt: "A long graph built from a skewed tree and short ancestor chords",
+    fit: "contain",
+  },
+  "tgen-miniblog-4-random-trees": {
+    src: "/writing/156658-2.png",
+    alt: "A generated star-shaped tree",
+    fit: "contain",
+  },
+  "introducing-tgen": {
+    src: "/writing/154468-1.png",
+    alt: "tgen logo",
+    fit: "contain",
+  },
+  "chinese-postman-contorno": {
+    src: "/writing/154192-8.jpeg",
+    alt: "Street network inside Avenida do Contorno",
+  },
+  "pattern-indexing-suffix-arrays": {
+    src: "/writing/thumb-pattern-indexing.svg",
+    alt: "A highlighted interval in a suffix array",
+    fit: "contain",
+  },
+  "time-complexity": {
+    src: "/writing/thumb-time-complexity.svg",
+    alt: "An asymptotic complexity question over a branching structure",
+    fit: "contain",
+  },
+  "variations-of-string-matching": {
+    src: "/writing/thumb-string-matching.svg",
+    alt: "Several patterns aligned with a text",
+    fit: "contain",
+  },
+  "tiny-dynamic-convex-hull": {
+    src: "/writing/112458-1.png",
+    alt: "Geometric construction around a convex hull",
+    fit: "contain",
+  },
+  "dynamic-suffix-arrays": {
+    src: "/writing/93042-2.png",
+    alt: "Tree representation used for a dynamic suffix array",
+    fit: "contain",
+  },
+  "integer-sets": {
+    src: "/writing/83969-5.png",
+    alt: "Binary tree representation of an integer set",
+    fit: "contain",
+  },
+  "rmq-linear-construction": {
+    src: "/writing/78931-2.png",
+    alt: "Block decomposition used in the RMQ construction",
+    fit: "contain",
+  },
+};
 ---
-<SiteLayout title="Writing" current="/writing">
-  <p class="kicker">Writing</p>
+<SiteLayout title="Posts" current="/writing">
+  <p class="kicker">Archive</p>
   <h1>Posts</h1>
-  <ul class="list" style="margin-top:2rem;">
-    {posts.map((p) => (
-      <li>
-        <a href={`/writing/${p.id}`}>{p.data.title}</a>
-        <span class="meta">{p.data.date.toISOString().slice(0, 10)}</span>
-      </li>
-    ))}
-  </ul>
+  <div class="writing-list">
+    {posts.map((post) => {
+      const cover = covers[post.id];
+      return (
+        <article class:list={["writing-row", { "has-cover": cover }]}>
+          {cover && (
+            <a class="writing-cover" href={`/writing/${post.id}`} tabindex="-1" aria-hidden="true">
+              <img class:list={{ contain: cover.fit === "contain" }} src={cover.src} alt={cover.alt} />
+            </a>
+          )}
+          <div class="writing-row-body">
+            <time datetime={post.data.date.toISOString()}>
+              {post.data.date.toLocaleDateString("en", { month: "short", day: "numeric", year: "numeric" })}
+            </time>
+            <h2><a href={`/writing/${post.id}`}>{post.data.title}</a></h2>
+          </div>
+        </article>
+      );
+    })}
+  </div>
 </SiteLayout>

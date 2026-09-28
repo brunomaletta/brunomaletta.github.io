@@ -1,68 +1,137 @@
 ---
 import SiteLayout from "../layouts/SiteLayout.astro";
-import { site, publications, projects, education, work, contests } from "../data/site";
+import HeroArt from "../components/HeroArt.astro";
+import ProfileIcon from "../components/ProfileIcon.astro";
+import { getCollection } from "astro:content";
+import { site, publications, projects } from "../data/site";
+
+const recentPosts = (await getCollection("writing"))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 4);
+const paper = publications[0];
+const tgen = projects.find((p) => p.name === "tgen")!;
+const contorno = projects.find((p) => p.name === "contorno")!;
 ---
 <SiteLayout current="/">
-  <header style="display:flex;gap:1.25rem;align-items:center;margin-bottom:1.75rem;">
-    <img class="portrait" src="/profile.jpg" alt="" />
-    <div>
-      <p class="kicker">{site.role}</p>
+  <section class="home-hero">
+    <HeroArt />
+    <div class="hero-copy">
+      <p class="eyebrow">Algorithms · problemsetting · ultrarunning</p>
       <h1>{site.name}</h1>
+      <div class="title-mark" aria-hidden="true"><span></span><i></i></div>
+      <p>
+        Hi! I’m Bruno, a PhD student studying algorithms at <a href="https://english.pku.edu.cn/">Peking University</a>.
+      </p>
+      <p>
+        Before moving to Beijing, I was a software engineer at Google in Belo Horizonte.
+        I still write contest problems and code, maintain an ICPC library, and occasionally
+        decide that running for more than a day is a reasonable idea.
+      </p>
     </div>
-  </header>
-  <p class="lede">{site.bio}</p>
+  </section>
 
-  <h2>Publications</h2>
-  <ul class="list">
-    {publications.map((p) => (
-      <li>
-        {p.title}
-        {p.original && <> ({p.original})</>}
-        <span class="meta">
-          {p.kind !== "paper" && p.venue}
-          {p.links?.length ? (
-            <>
-              {p.kind !== "paper" && " · "}
-              {p.links.map((l, i) => (
-                <>
-                  {i > 0 && " · "}
-                  <a href={l.href}>{l.label}</a>
-                </>
-              ))}
-            </>
-          ) : null}
+  <nav class="link-band" aria-label="Profiles">
+    {site.socials.map((social, i) => (
+      <a href={social.href}>
+        <span class:list={["link-dot", `tone-${i + 1}`]} aria-hidden="true">
+          <ProfileIcon name={social.label} />
         </span>
-      </li>
+        <span>{social.label}</span>
+        <span aria-hidden="true">↗</span>
+      </a>
     ))}
-  </ul>
+    <a href="mailto:brunomaletta@gmail.com">
+      <span class="link-dot tone-4" aria-hidden="true">
+        <ProfileIcon name="Email" />
+      </span>
+      <span>Email</span>
+      <span aria-hidden="true">↗</span>
+    </a>
+  </nav>
 
-  <h2>GitHub</h2>
-  <ul class="list">
-    {projects.map((p) => (
-      <li>
-        <a href={p.href}>{p.name}</a>
-        <span class="meta">{p.lang} · {p.blurb}</span>
-      </li>
-    ))}
-  </ul>
+  <section class="home-section">
+    <header class="section-heading">
+      <div>
+        <p class="eyebrow">Selected work</p>
+        <h2>Things I’ve been doing</h2>
+      </div>
+      <a class="section-link" href="/projects">All projects →</a>
+    </header>
 
-  <h2>Experience</h2>
-  <ul class="list">
-    {[...education, ...work].map((e) => (
-      <li>
-        {e.title}, {e.place}
-        <span class="meta">{e.dates}</span>
-      </li>
-    ))}
-  </ul>
+    <div class="feature-grid">
+      <article class="feature-card tone-blue">
+        <p class="card-index">01 / Research</p>
+        <a class="feature-media sa-media" href={paper.href}>
+          <img src="/projects/dynamic-pattern.png" alt="Suffix array with arrows marking concatenated suffix ranges" />
+        </a>
+        <h3><a href={paper.href}>{paper.title}</a></h3>
+        <p>{paper.blurb}</p>
+        <div class="card-links">
+          {paper.links.map((link) => <a href={link.href}>{link.label}</a>)}
+        </div>
+      </article>
 
-  <h2>ICPC</h2>
-  <ul class="list">
-    {contests.slice(0, 4).map((c) => (
-      <li>
-        {c.href ? <a href={c.href}>{c.title}</a> : c.title}
-        <span class="meta">{c.detail}</span>
-      </li>
-    ))}
-  </ul>
+      <article class="feature-card tone-teal">
+        <p class="card-index">02 / Test generation</p>
+        <a class="feature-media logo-media" href={tgen.href}>
+          <img src="/writing/154468-1.png" alt="tgen logo" />
+        </a>
+        <h3><a href={tgen.href}>tgen</a></h3>
+        <p>{tgen.blurb} Its implementation has also led to a growing series of short algorithmic essays.</p>
+        <div class="card-links">
+          <a href={tgen.href}>GitHub</a>
+          <a href={tgen.related}>Read the introduction</a>
+        </div>
+      </article>
+
+      <article class="feature-card tone-terra">
+        <p class="card-index">03 / Graphs on foot</p>
+        <a class="feature-media" href={contorno.related}>
+          <img src="/writing/154192-8.jpeg" alt="Street network inside Avenida do Contorno" />
+        </a>
+        <h3><a href={contorno.related}>Every street inside Contorno</a></h3>
+        <p>{contorno.blurb} The resulting Chinese Postman tour was about 180 km and took 34 hours.</p>
+        <div class="card-links">
+          <a href={contorno.related}>Read the story</a>
+          <a href="/running">More running</a>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="home-section writing-preview">
+    <header class="section-heading">
+      <div>
+        <p class="eyebrow">Recent posts</p>
+        <h2>Notes on algorithms and unlikely projects</h2>
+      </div>
+      <a class="section-link" href="/writing">All posts →</a>
+    </header>
+    <ol class="editorial-list">
+      {recentPosts.map((post) => (
+        <li>
+          <time datetime={post.data.date.toISOString()}>
+            {post.data.date.toLocaleDateString("en", { month: "short", year: "numeric" })}
+          </time>
+          <div>
+            <h3><a href={`/writing/${post.id}`}>{post.data.title}</a></h3>
+            {post.data.summary && <p>{post.data.summary}</p>}
+          </div>
+          <a class="row-arrow" href={`/writing/${post.id}`} aria-label={`Read ${post.data.title}`}>→</a>
+        </li>
+      ))}
+    </ol>
+  </section>
+
+  <section class="aside-panel">
+    <div>
+      <p class="eyebrow">Away from the keyboard</p>
+      <h2>Long routes, preferably with a graph hidden inside.</h2>
+    </div>
+    <p>
+      I run roads and trails, from a 160 km route connecting three former capitals of Minas Gerais
+      to a tour of every street inside Belo Horizonte’s Avenida do Contorno.
+      <a href="/running">Routes, films, and questionable decisions →</a>
+    </p>
+  </section>
 </SiteLayout>

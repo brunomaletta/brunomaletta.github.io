@@ -1,7 +1,6 @@
 ---
 import Base from "./Base.astro";
 import Nav from "../components/Nav.astro";
-import AlgoBg from "../components/AlgoBg.astro";
 import "../styles/site.css";
 
 interface Props {
@@ -12,13 +11,18 @@ interface Props {
 const { title, description, current } = Astro.props;
 ---
 <Base title={title} description={description}>
-  <div class="tricolor" aria-hidden="true"><i></i><i></i><i></i></div>
-  <AlgoBg />
   <div class="shell">
     <Nav current={current} />
     <main class="site-main">
       <slot />
     </main>
-    <footer class="site-foot">Bruno Monteiro</footer>
+    <footer class="site-foot">
+      <span>Bruno Monteiro</span>
+      <nav aria-label="Secondary">
+        <a href="/research">Research</a>
+        <a href="/running">Running</a>
+        <a href="/influences">Influences</a>
+      </nav>
+    </footer>
   </div>
 </Base>
