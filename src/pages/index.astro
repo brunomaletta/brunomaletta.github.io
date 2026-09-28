@@ -2,6 +2,7 @@
 import SiteLayout from "../layouts/SiteLayout.astro";
 import HeroArt from "../components/HeroArt.astro";
 import ProfileIcon from "../components/ProfileIcon.astro";
+import ChipIcon from "../components/ChipIcon.astro";
 import { getCollection } from "astro:content";
 import { site, publications, projects } from "../data/site";
 
@@ -11,6 +12,11 @@ const recentPosts = (await getCollection("writing"))
 const paper = publications[0];
 const tgen = projects.find((p) => p.name === "tgen")!;
 const contorno = projects.find((p) => p.name === "contorno")!;
+const paperIcon = (label: string): "paper" | "preprint" | "thesis" => {
+  if (label.startsWith("arXiv")) return "preprint";
+  if (label.includes("thesis")) return "thesis";
+  return "paper";
+};
 ---
 <SiteLayout current="/">
   <section class="home-hero">
@@ -23,7 +29,8 @@ const contorno = projects.find((p) => p.name === "contorno")!;
         Hi! I’m Bruno, a PhD student studying algorithms at <a href="https://english.pku.edu.cn/">Peking University</a>.
       </p>
       <p>
-        Before moving to Beijing, I was a software engineer at Google in Belo Horizonte.
+        Before moving to Beijing, I completed a master’s degree at UFMG and worked as a
+        software engineer at Google in Belo Horizonte.
         I still write contest problems and code, maintain an ICPC library, and occasionally
         decide that running for more than a day is a reasonable idea.
       </p>
@@ -67,7 +74,12 @@ const contorno = projects.find((p) => p.name === "contorno")!;
         <h3><a href={paper.href}>{paper.title}</a></h3>
         <p>{paper.blurb}</p>
         <div class="card-links">
-          {paper.links.map((link) => <a href={link.href}>{link.label}</a>)}
+          {paper.links.map((link) => (
+            <a href={link.href}>
+              <ChipIcon name={paperIcon(link.label)} />
+              <span>{link.label}</span>
+            </a>
+          ))}
         </div>
       </article>
 
@@ -79,8 +91,8 @@ const contorno = projects.find((p) => p.name === "contorno")!;
         <h3><a href={tgen.href}>tgen</a></h3>
         <p>{tgen.blurb} Its implementation has also led to a growing series of short algorithmic essays.</p>
         <div class="card-links">
-          <a href={tgen.href}>GitHub</a>
-          <a href={tgen.related}>Read the introduction</a>
+          <a href={tgen.href}><ChipIcon name="github" /><span>GitHub</span></a>
+          <a href={tgen.related}><ChipIcon name="post" /><span>Read the introduction</span></a>
         </div>
       </article>
 
@@ -92,8 +104,8 @@ const contorno = projects.find((p) => p.name === "contorno")!;
         <h3><a href={contorno.related}>Every street inside Contorno</a></h3>
         <p>{contorno.blurb} The resulting Chinese Postman tour was about 180 km and took 34 hours.</p>
         <div class="card-links">
-          <a href={contorno.related}>Read the story</a>
-          <a href="/running">More running</a>
+          <a href={contorno.related}><ChipIcon name="post" /><span>Read the story</span></a>
+          <a href="/running"><ChipIcon name="running" /><span>More running</span></a>
         </div>
       </article>
     </div>

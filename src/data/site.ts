@@ -149,7 +149,7 @@ export const publications = [
     extra: "https://github.com/brunomaletta/DynamicPatternMatching",
     links: [
       { label: "SPIRE 2025", href: "https://link.springer.com/chapter/10.1007/978-3-032-05228-5_17" },
-      { label: "arXiv:2506.11318", href: "https://arxiv.org/abs/2506.11318" },
+      { label: "arXiv", href: "https://arxiv.org/abs/2506.11318" },
       { label: "Master's thesis", href: "/papers/masters-thesis.pdf" },
     ],
     blurb:

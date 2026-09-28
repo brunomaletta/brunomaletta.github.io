@@ -404,6 +404,9 @@ p { margin: 0 0 1rem; }
 }
 
 .card-links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.34rem;
   padding: 0.32rem 0.65rem;
   border: 1px solid var(--rule);
   border-radius: 999px;
@@ -411,6 +414,19 @@ p { margin: 0 0 1rem; }
   font: 0.68rem/1.4 var(--sans);
   text-decoration: none;
 }
+
+.card-links svg {
+  width: 0.82rem;
+  height: 0.82rem;
+  flex: 0 0 auto;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.45;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.card-links svg .icon-fill { fill: currentColor; stroke: none; }
 
 .card-links a:hover { border-color: var(--link); color: var(--link-dark); }
 
