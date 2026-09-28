@@ -67,7 +67,7 @@ Output
 
 In the first example, we can make one of two possible moves on the second board; that way, only the first board has possible moves, and we can see that the first player wins. Another possibility is to make one of the two moves on the first board. It can be proved that in the initial arrangement the second player wins.
 
-## Tutorial
+## Solution
 
 This is a disjoint sum of impartial games. Compute the Sprague–Grundy number of every reachable cell: it is the mex of the values visible to the right and below until an obstacle. Maintain those sets while scanning from bottom-right; transposing the board when useful gives linearithmic time in the board area.
 

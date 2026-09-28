@@ -93,7 +93,7 @@ Output
 IMPOSSIVEL
 ```
 
-## Tutorial
+## Solution
 
 **Required topics:** permutations, string matching, and the Chinese remainder theorem.
 

@@ -48,7 +48,7 @@ Output
 N
 ```
 
-## Tutorial
+## Solution
 
 Represent every required street by a chord joining its two endpoints. Two chords whose endpoints alternate around the circle must lie on opposite sides of the avenue; every other pair imposes no constraint. Build a *crossing graph*: one vertex per required street and one edge per alternating pair. Choosing inside or outside is exactly a 2-coloring of this graph, so the answer is `S` if and only if it is bipartite.
 

@@ -92,7 +92,7 @@ Output
 41
 ```
 
-## Tutorial
+## Solution
 
 A valid encoding has a local substructure: after choosing $P_1,V_1$ whose decoding contributes $M'$ digits, the remaining suffix must decode to $M-M'$ digits. Use DP states `(position in N, remaining decoded length)`.
 

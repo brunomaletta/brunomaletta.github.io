@@ -53,7 +53,7 @@ Output
 48/49
 ```
 
-## Tutorial
+## Solution
 
 For starting positions $i$ and $j$, the number of synchronized moves is exactly the longest common prefix of the suffixes $V[i..N]$ and $V[j..N]$. Hence the numerator of the expectation is
 

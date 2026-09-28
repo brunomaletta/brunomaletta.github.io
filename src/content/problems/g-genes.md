@@ -60,7 +60,7 @@ Output
 2
 ```
 
-## Tutorial
+## Solution
 
 We use Aho–Corasick to enumerate every occurrence of every gene in $T$.
 

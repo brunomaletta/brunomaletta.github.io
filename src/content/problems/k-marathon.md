@@ -57,7 +57,7 @@ Output
 63902
 ```
 
-## Tutorial
+## Solution
 
 A direct position DP is correct but the route may have length $10^{12}$. Inside one constant-rate segment, let $L$ be the race length with maximum rate. Far enough from both segment boundaries, replacing any block of $\operatorname{lcm}(5,10,21,42)=210$ km by copies of this best race cannot hurt.
 

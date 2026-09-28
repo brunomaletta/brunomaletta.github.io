@@ -50,7 +50,7 @@ The digit counts for every row/column pair are:
 
 Each has probability $1/9$. For example, $14/36=0.3\overline8$ requires 3 digits. The expectation is $30/9=10/3$. Since $3^{-1}=332748118$, the answer is $10\cdot332748118\bmod998244353=332748121$.
 
-## Tutorial
+## Solution
 
 For positive integers $X$ and $Y$, let $F(X,Y)$ be the number of digits used by the exact decimal representation of $X/Y$, counting only the first copy of a repeating period. We need
 

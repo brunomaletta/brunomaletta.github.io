@@ -54,6 +54,7 @@ const { Content } = await render(post);
   <script>
     document.querySelectorAll("article.prose pre").forEach((pre) => {
       if (pre.parentElement?.classList.contains("code-block")) return;
+      const caption = pre.previousElementSibling;
       const wrap = document.createElement("div");
       wrap.className = "code-block";
       pre.parentNode.insertBefore(wrap, pre);
@@ -85,6 +86,25 @@ const { Content } = await render(post);
         }, 1600);
       });
       wrap.appendChild(btn);
+
+      const quotedCaption = wrap.nextElementSibling;
+      if (quotedCaption instanceof HTMLQuoteElement) {
+        quotedCaption.classList.add("code-caption");
+        wrap.classList.add("has-caption");
+      }
+
+      if (caption instanceof HTMLParagraphElement && caption.children.length === 0) {
+        const label = caption.textContent?.trim() ?? "";
+        const words = label.split(/\s+/).filter(Boolean).length;
+        const looksLikeCaption =
+          label.length <= 90 &&
+          (words <= 4 || /^Code\b/i.test(label) || label.endsWith(":"));
+        if (looksLikeCaption) {
+          caption.classList.add("code-caption");
+          wrap.classList.add("has-caption");
+          wrap.after(caption);
+        }
+      }
     });
   </script>
 </SiteLayout>

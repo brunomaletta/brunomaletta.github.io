@@ -76,7 +76,7 @@ Output
 -1
 ```
 
-## Tutorial
+## Solution
 
 Let $dp[v]$ be the minimum number of days needed to reach $N$ when waking in $v$, with $dp[N]=0$. To compute it, activate exactly the vertices whose altitudes lie in $[h_v,h_v+H]$; the next sleeping city may be anywhere in $v$'s active connected component, so $dp[v]=1+\min_{u\in C(v)}dp[u]$.
 

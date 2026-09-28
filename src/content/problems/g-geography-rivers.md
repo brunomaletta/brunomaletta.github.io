@@ -46,7 +46,7 @@ Output
 2
 ```
 
-## Tutorial
+## Solution
 
 The merge history is a rooted binary tree: the original sources are leaves, each junction is an internal node, and river $2N-1$ is the root. The water at a node is the sum of all leaf values in its subtree.
 

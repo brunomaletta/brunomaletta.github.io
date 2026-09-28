@@ -43,7 +43,7 @@ Output
 2 3 1 4 5
 ```
 
-## Tutorial
+## Solution
 
 At every moment, the sunk pads form one interval: after starting at $s$, the only possible new pads are the neighbors immediately outside the visited interval. Thus an order is determined by repeatedly taking the left or right endpoint.
 

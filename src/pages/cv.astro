@@ -6,7 +6,7 @@ import { site, education, work, teaching, contests, projects, publications } fro
   <p class="kicker">Curriculum vitae</p>
   <h1>{site.fullName}</h1>
   <p class="lede">{site.role}. Previously software engineer at Google.</p>
-  <p class="socials">
+  <p class="socials cv-socials">
     {[
       ...site.socials,
       { label: "Lattes", href: site.lattes },
@@ -14,7 +14,7 @@ import { site, education, work, teaching, contests, projects, publications } fro
     ].map((s, i) => (
       <>
         {i > 0 && <span aria-hidden="true"> · </span>}
-        <a href={s.href}>{s.label}</a>
+        <a class="cv-chip" href={s.href}>{s.label}</a>
       </>
     ))}
   </p>
@@ -51,10 +51,9 @@ import { site, education, work, teaching, contests, projects, publications } fro
           {p.links?.length ? (
             <>
               {" "}
-              {p.links.map((l, i) => (
+              {p.links.map((l) => (
                 <>
-                  {i > 0 && " · "}
-                  <a href={l.href}>{l.label}</a>
+                  <a class="cv-chip" href={l.href}>{l.label}</a>
                 </>
               ))}
             </>
@@ -74,10 +73,9 @@ import { site, education, work, teaching, contests, projects, publications } fro
           {e.links?.length ? (
             <>
               {" · "}
-              {e.links.map((l, i) => (
+              {e.links.map((l) => (
                 <>
-                  {i > 0 && " · "}
-                  <a href={l.href}>{l.label}</a>
+                  <a class="cv-chip" href={l.href}>{l.label}</a>
                 </>
               ))}
             </>

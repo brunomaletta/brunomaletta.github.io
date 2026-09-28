@@ -14,9 +14,11 @@ export const site = {
   bio: "I study algorithms. Before Peking University I was a software engineer at Google in Belo Horizonte, and I still write contest code, maintain an ICPC library, and go on very long runs.",
   nav: [
     { href: "/", label: "Home" },
+    { href: "/research", label: "Research" },
     { href: "/writing", label: "Posts" },
-    { href: "/problems", label: "Problems" },
     { href: "/projects", label: "Projects" },
+    { href: "/problems", label: "Problems" },
+    { href: "/running", label: "Running" },
     { href: "/cv", label: "CV" },
   ],
 };
@@ -238,12 +240,6 @@ export const projects: Project[] = [
     related: "/research",
     lang: "C++",
   },
-  {
-    name: "manim_splay",
-    blurb: "Splay-tree animations.",
-    href: "https://github.com/brunomaletta/manim_splay",
-    lang: "Python",
-  },
 ];
 
 export const races = [
@@ -345,11 +341,11 @@ export const other = [
     href: "/coding.jpg",
   },
   {
-    title: "Rubik's Cube",
-    detail: "Personal best — single: 10.65 s. Average of 5: 13.45.",
+    title: "Rubik's Cube personal best",
+    detail: "Single: 10.65 s. Average of 5: 13.45.",
   },
   {
-    title: "Breath hold",
-    detail: "Personal best: 3 min 4 s, underwater.",
+    title: "Breath hold personal best",
+    detail: "3 min 4 s, underwater.",
   },
 ];

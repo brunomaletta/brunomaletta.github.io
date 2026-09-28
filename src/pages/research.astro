@@ -1,10 +1,16 @@
 ---
 import SiteLayout from "../layouts/SiteLayout.astro";
+import ChipIcon from "../components/ChipIcon.astro";
 import { publications } from "../data/site";
 
 const papers = publications.filter((p) => p.kind === "paper");
 const masters = publications.find((p) => p.kind === "masters")!;
 const bachelors = publications.find((p) => p.kind === "bachelors")!;
+const researchIcon = (label: string): "paper" | "preprint" | "thesis" => {
+  if (label.startsWith("arXiv")) return "preprint";
+  if (label === "PDF" || label.includes("thesis")) return "thesis";
+  return "paper";
+};
 ---
 <SiteLayout title="Research" current="/research">
   <p class="kicker">Research</p>
@@ -19,20 +25,14 @@ const bachelors = publications.find((p) => p.kind === "bachelors")!;
           <em>{paper.title}</em>. {paper.authors}. {paper.venue}.
         </p>
         {paper.blurb && <p>{paper.blurb}</p>}
-        <p>
-          {paper.links.map((l, i) => (
-            <>
-              {i > 0 && " · "}
-              <a href={l.href}>{l.label}</a>
-            </>
+        <div class="card-links research-links">
+          {paper.links.map((l) => (
+            <a href={l.href}><ChipIcon name={researchIcon(l.label)} /><span>{l.label}</span></a>
           ))}
           {paper.extra && (
-            <>
-              {" · "}
-              <a href={paper.extra}>code</a>
-            </>
+            <a href={paper.extra}><ChipIcon name="github" /><span>GitHub</span></a>
           )}
-        </p>
+        </div>
       </div>
     ))}
   </section>
@@ -45,10 +45,10 @@ const bachelors = publications.find((p) => p.kind === "bachelors")!;
     <p>
       The dissertation the SPIRE paper is based on.
     </p>
-    <p>
-      <a href={masters.href}>PDF</a>
-      · <a href={masters.extra}>code</a>
-    </p>
+    <div class="card-links research-links">
+      <a href={masters.href}><ChipIcon name="thesis" /><span>PDF</span></a>
+      <a href={masters.extra}><ChipIcon name="github" /><span>GitHub</span></a>
+    </div>
   </section>
 
   <section class="prose" style="margin-top:2.5rem;">
@@ -61,10 +61,10 @@ const bachelors = publications.find((p) => p.kind === "bachelors")!;
     <p>
       Integer-set representation with merge and split in O(log U) amortized. A Block-Sorted Array supporting split, concat, reverse, and sort in O(log n + log U), plus a Partition operation that removes the k smallest values (conjectured sublinear).
     </p>
-    <p>
-      <a href={bachelors.href}>PDF</a>
-      · <a href={bachelors.extra}>code</a>
-      · <a href="/writing/integer-sets">related tutorial</a>
-    </p>
+    <div class="card-links research-links">
+      <a href={bachelors.href}><ChipIcon name="thesis" /><span>PDF</span></a>
+      <a href={bachelors.extra}><ChipIcon name="github" /><span>GitHub</span></a>
+      <a href="/writing/integer-sets"><ChipIcon name="post" /><span>Related tutorial</span></a>
+    </div>
   </section>
 </SiteLayout>
