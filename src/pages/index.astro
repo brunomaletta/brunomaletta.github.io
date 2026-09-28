@@ -8,7 +8,7 @@ import { site, publications, projects } from "../data/site";
 
 const recentPosts = (await getCollection("writing"))
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
-  .slice(0, 4);
+  .slice(0, 3);
 const paper = publications[0];
 const tgen = projects.find((p) => p.name === "tgen")!;
 const contorno = projects.find((p) => p.name === "contorno")!;
@@ -86,7 +86,7 @@ const paperIcon = (label: string): "paper" | "preprint" | "thesis" => {
       <article class="feature-card tone-teal">
         <p class="card-index">02 / Test generation</p>
         <a class="feature-media logo-media" href={tgen.href}>
-          <img src="/writing/154468-1.png" alt="tgen logo" />
+          <img src="/writing/tgen-logo-transparent.svg" alt="tgen logo" />
         </a>
         <h3><a href={tgen.href}>tgen</a></h3>
         <p>{tgen.blurb} Its implementation has also led to a growing series of short algorithmic essays.</p>

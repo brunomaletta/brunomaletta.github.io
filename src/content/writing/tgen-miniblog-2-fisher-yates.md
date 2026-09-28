@@ -6,7 +6,7 @@ cfUrl: "https://codeforces.com/blog/entry/154657"
 tags:
 summary: "This is a blog 2 of a series of blogs about algorithmic challenges I came across when creating tgen."
 ---
-<p class="figure"><img class="tgen-logo" src="/writing/154468-1.png" alt="tgen" /></p>
+<p class="figure"><img class="tgen-logo" src="/writing/tgen-logo-transparent.svg" alt="tgen" /></p>
 
 
 *This is a blog 2 of a series of blogs about algorithmic challenges I came across when creating [tgen](https://codeforces.com/blog/entry/154468).*

@@ -6,7 +6,7 @@ cfUrl: "https://codeforces.com/blog/entry/154468"
 tags:
 summary: "Testcase generation for random inputs."
 ---
-<p class="figure"><img class="tgen-logo" src="/writing/154468-1.png" alt="tgen" /></p>
+<p class="figure"><img class="tgen-logo" src="/writing/tgen-logo-transparent.svg" alt="tgen" /></p>
 
 *Testcase generation for random inputs.*
 

@@ -80,7 +80,7 @@ a:hover { color: var(--link-dark); }
 .nav a:hover,
 .nav a[aria-current="page"] { color: var(--ink); }
 
-.nav a[aria-current="page"] { font-weight: 500; }
+.nav a[aria-current="page"] { font-weight: 700; }
 
 .wordmark {
   color: var(--ink) !important;
@@ -828,6 +828,37 @@ p { margin: 0 0 1rem; }
 }
 
 .tutorial-body h2 { margin-top: 1.5rem; border-top: 0; }
+
+.post-nav-top {
+  max-width: 52rem;
+  display: flex;
+  justify-content: space-between;
+  margin: 0 0 0.55rem;
+  font: 500 0.69rem/1.4 var(--sans);
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.post-nav-top a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.42rem;
+  color: var(--link);
+  text-decoration: none;
+}
+
+.post-nav-top svg {
+  width: 0.9rem;
+  height: 0.68rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transform: translateY(-2px);
+}
+
+.post-nav-top a:hover { color: var(--ink); }
 
 .post-nav {
   max-width: 49rem;
