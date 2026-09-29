@@ -125,6 +125,15 @@ export const contests = [
     href: "",
   },
   {
+    title: "Revista Maratona SBC de Programação",
+    detail: "Co-creator and editorial committee member for the 2025 and 2026 editions.",
+    href: "https://maratona.sbc.org.br/revista.html",
+    links: [
+      { label: "2025 issue", href: "https://maratona.sbc.org.br/revista/revistas/2025.pdf" },
+      { label: "2026 issue", href: "https://books-sol.sbc.org.br/index.php/sbc/catalog/book/212" },
+    ],
+  },
+  {
     title: "IX Maratona Mineira de Programação, 2022",
     detail: "Gold, 1st of 51 with pãO(queijo).",
     href: "https://maratona.algartelecom.com.br/portal/wp-content/uploads/2022/05/4-Mineira2022_Maratona_Mineira_Placar_Final.pdf",

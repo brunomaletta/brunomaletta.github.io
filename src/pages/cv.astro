@@ -90,7 +90,16 @@ import { site, education, work, teaching, contests, projects, publications } fro
     {contests.map((c) => (
       <li>
         {c.href ? <a href={c.href}>{c.title}</a> : <strong>{c.title}</strong>}
-        <span class="meta">{c.detail}</span>
+        <span class="meta">
+          {c.detail}
+          {c.links?.length ? (
+            <>
+              {c.links.map((l) => (
+                <a class="cv-chip" href={l.href}>{l.label}</a>
+              ))}
+            </>
+          ) : null}
+        </span>
       </li>
     ))}
   </ul>
