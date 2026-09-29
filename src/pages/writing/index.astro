@@ -82,9 +82,9 @@ const covers: Record<string, { src: string; alt: string; fit?: "contain" }> = {
   },
 };
 ---
-<SiteLayout title="Posts" current="/writing">
+<SiteLayout title="Blogs" current="/writing">
   <p class="kicker">Archive</p>
-  <h1>Posts</h1>
+  <h1>Blogs</h1>
   <div class="writing-list">
     {posts.map((post) => {
       const cover = covers[post.id];

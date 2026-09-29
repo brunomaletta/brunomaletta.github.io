@@ -27,7 +27,7 @@ const { post, newer, older } = Astro.props;
 const { Content } = await render(post);
 ---
 <SiteLayout title={post.data.title} current="/writing">
-  <nav class="post-nav-top" aria-label="Other posts">
+  <nav class="post-nav-top" aria-label="Other blogs">
     {older ? (
       <a href={`/writing/${older.id}`} rel="prev">
         <svg viewBox="0 0 16 12" aria-hidden="true">
@@ -54,7 +54,7 @@ const { Content } = await render(post);
   <article class="prose" style="margin-top:2rem;">
     <Content />
   </article>
-  <nav class="post-nav" aria-label="Other posts">
+  <nav class="post-nav" aria-label="Other blogs">
     {older ? (
       <a class="post-nav-btn" href={`/writing/${older.id}`}>
         <span class="dir">Previous</span>
