@@ -657,6 +657,11 @@ p { margin: 0 0 1rem; }
   margin: 0.5rem auto;
 }
 
+.prose img.statement-photo {
+  width: min(20rem, 100%);
+  margin: 1.3rem auto 1.6rem;
+}
+
 .prose .figure {
   margin: 1.8rem 0 0.35rem;
   text-align: center;

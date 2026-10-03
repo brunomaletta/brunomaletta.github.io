@@ -10,6 +10,8 @@ summary: "Count parses of a run-length-like spoken number with a prescribed deco
 
 > I feel your fury in your words, but I do not understand anything you say. — William Shakespeare
 
+<img class="statement-photo" src="/problems/mineira-2025/way-of-speaking-train.jpg" alt="A train arriving at a station in Minas Gerais" />
+
 Bira traveled to the countryside of Minas Gerais and now needs to catch a train. When he arrives at the station, he asks an employee for the station number, to check whether he is at the right station.
 
 However, the locals have a different custom: they say numbers in an encoded way! For example, to say the number `2020`, they could say `220` (two copies of the number `20`), and the number `205555` could be encoded as `12045` (one copy of the number `20`, followed by four copies of the number `5`).

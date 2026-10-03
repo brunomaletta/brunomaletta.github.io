@@ -10,6 +10,8 @@ summary: "Find the minimum travel days under a moving altitude window."
 
 > I'm feeling sick, I'm feeling sick!
 
+<img class="statement-photo" src="/problems/mineira-2025/sea-of-hills-mountain.png" alt="A mountain landscape in Minas Gerais" />
+
 Minas Gerais is a state with many hills (or, as many people say, a *sea of hills*). Fernanda wants to travel through Minas Gerais, but she always has problems with altitude and may feel sick from the lack of oxygen. The state can be described by $N$ cities connected by $M$ roads that can be traveled in both directions. City $i$ has altitude $h_i$ meters. Fernanda starts in city 1 and wants to reach city $N$.
 
 Acclimatization works as follows: the body adapts to an altitude after sleeping in a city. More specifically, after sleeping in city $i$, whose altitude is $h_i$, on the following day Fernanda may visit only cities whose altitudes lie in $[h_i,h_i+H]$, where $H$ is fixed. She may visit several cities on the same day.
