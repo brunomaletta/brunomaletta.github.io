@@ -26,10 +26,10 @@ interface Props {
 const { post, newer, older } = Astro.props;
 const { Content } = await render(post);
 ---
-<SiteLayout title={post.data.title} current="/writing">
+<SiteLayout title={post.data.title} current="/blogs">
   <nav class="post-nav-top" aria-label="Other blogs">
     {older ? (
-      <a href={`/writing/${older.id}`} rel="prev">
+      <a href={`/blogs/${older.id}`} rel="prev">
         <svg viewBox="0 0 16 12" aria-hidden="true">
           <path d="M6.5 1.5 1 6l5.5 4.5M1 6h14" />
         </svg>
@@ -37,7 +37,7 @@ const { Content } = await render(post);
       </a>
     ) : <span></span>}
     {newer ? (
-      <a href={`/writing/${newer.id}`} rel="next">
+      <a href={`/blogs/${newer.id}`} rel="next">
         <span>Next</span>
         <svg viewBox="0 0 16 12" aria-hidden="true">
           <path d="m9.5 1.5 5.5 4.5-5.5 4.5M15 6H1" />
@@ -56,13 +56,13 @@ const { Content } = await render(post);
   </article>
   <nav class="post-nav" aria-label="Other blogs">
     {older ? (
-      <a class="post-nav-btn" href={`/writing/${older.id}`}>
+      <a class="post-nav-btn" href={`/blogs/${older.id}`}>
         <span class="dir">Previous</span>
         <span class="ttl">{older.data.title}</span>
       </a>
     ) : <span></span>}
     {newer ? (
-      <a class="post-nav-btn next" href={`/writing/${newer.id}`}>
+      <a class="post-nav-btn next" href={`/blogs/${newer.id}`}>
         <span class="dir">Next</span>
         <span class="ttl">{newer.data.title}</span>
       </a>

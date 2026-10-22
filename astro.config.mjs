@@ -4,6 +4,10 @@ import rehypeKatex from 'rehype-katex';
 
 export default defineConfig({
   site: 'https://brunomaletta.github.io',
+  redirects: {
+    '/writing': '/blogs',
+    '/writing/[slug]': '/blogs/[slug]',
+  },
   markdown: {
     remarkPlugins: [[remarkMath, { singleDollarTextMath: true }]],
     rehypePlugins: [rehypeKatex],

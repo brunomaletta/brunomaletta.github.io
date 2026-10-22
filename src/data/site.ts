@@ -15,7 +15,7 @@ export const site = {
   nav: [
     { href: "/", label: "Home" },
     { href: "/research", label: "Research" },
-    { href: "/writing", label: "Blogs" },
+    { href: "/blogs", label: "Blogs" },
     { href: "/projects", label: "Projects" },
     { href: "/problems", label: "Problems" },
     { href: "/running", label: "Running" },
@@ -225,14 +225,14 @@ export const projects: Project[] = [
     name: "tgen",
     blurb: "Single-header C++ library for random and adversarial testcase generation.",
     href: "https://github.com/brunomaletta/tgen",
-    related: "/writing/introducing-tgen",
+    related: "/blogs/introducing-tgen",
     lang: "C++",
   },
   {
     name: "contorno",
     blurb: "Chinese Postman route through every street inside Belo Horizonte's Avenida do Contorno.",
     href: "https://github.com/brunomaletta/contorno",
-    related: "/writing/chinese-postman-contorno",
+    related: "/blogs/chinese-postman-contorno",
     lang: "C++",
   },
   {

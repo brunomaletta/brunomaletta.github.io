@@ -87,7 +87,7 @@ const covers: Record<string, { src: string; alt: string; fit?: "contain" }> = {
   },
 };
 ---
-<SiteLayout title="Blogs" current="/writing">
+<SiteLayout title="Blogs" current="/blogs">
   <p class="kicker">Archive</p>
   <h1>Blogs</h1>
   <div class="writing-list">
@@ -96,7 +96,7 @@ const covers: Record<string, { src: string; alt: string; fit?: "contain" }> = {
       return (
         <article class:list={["writing-row", { "has-cover": cover }]}>
           {cover && (
-            <a class="writing-cover" href={`/writing/${post.id}`} tabindex="-1" aria-hidden="true">
+            <a class="writing-cover" href={`/blogs/${post.id}`} tabindex="-1" aria-hidden="true">
               <img class:list={{ contain: cover.fit === "contain" }} src={cover.src} alt={cover.alt} />
             </a>
           )}
@@ -104,7 +104,7 @@ const covers: Record<string, { src: string; alt: string; fit?: "contain" }> = {
             <time datetime={post.data.date.toISOString()}>
               {post.data.date.toLocaleDateString("en", { month: "short", day: "numeric", year: "numeric" })}
             </time>
-            <h2><a href={`/writing/${post.id}`}>{post.data.title}</a></h2>
+            <h2><a href={`/blogs/${post.id}`}>{post.data.title}</a></h2>
           </div>
         </article>
       );

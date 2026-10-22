@@ -117,7 +117,7 @@ const paperIcon = (label: string): "paper" | "preprint" | "thesis" => {
         <p class="eyebrow">Recent blogs</p>
         <h2>Notes on algorithms and unlikely projects</h2>
       </div>
-      <a class="section-link" href="/writing">All blogs →</a>
+      <a class="section-link" href="/blogs">All blogs →</a>
     </header>
     <ol class="editorial-list">
       {recentPosts.map((post) => (
@@ -126,10 +126,10 @@ const paperIcon = (label: string): "paper" | "preprint" | "thesis" => {
             {post.data.date.toLocaleDateString("en", { month: "short", year: "numeric" })}
           </time>
           <div>
-            <h3><a href={`/writing/${post.id}`}>{post.data.title}</a></h3>
+            <h3><a href={`/blogs/${post.id}`}>{post.data.title}</a></h3>
             {post.data.summary && <p>{post.data.summary}</p>}
           </div>
-          <a class="row-arrow" href={`/writing/${post.id}`} aria-label={`Read ${post.data.title}`}>→</a>
+          <a class="row-arrow" href={`/blogs/${post.id}`} aria-label={`Read ${post.data.title}`}>→</a>
         </li>
       ))}
     </ol>
