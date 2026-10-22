@@ -14,6 +14,10 @@ In this blog we will tackle:
 
 1. Given $n$ distinct points that are not all collinear, order them as the vertices of a random simple polygon, in $\mathcal O(n\log n)$ expected time.
 
+<p class="figure"><img class="diagram" src="/writing/158041-recursive-polygon.gif" alt="Animation of a simple polygon being built by recursively splitting the points" /></p>
+
+*Building a simple polygon by recursively splitting the points.*
+
 A polygon is **simple** if its boundary does not intersect itself. A random permutation of the points usually has many crossings, and repeatedly removing crossings by local fixes can be slow. Instead, we will use divide and conquer to construct a noncrossing Hamiltonian path, then use this construction to build the polygon. I first saw this idea in [this Codeforces comment](https://codeforces.com/blog/entry/63058?#comment-472788).
 
 The result is not uniformly random among all simple polygons through the points. Random choices only give us varied polygon shapes.
